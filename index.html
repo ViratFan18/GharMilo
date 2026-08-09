@@ -1,0 +1,3834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <title>GharMilo – Naidupeta Homes</title>
+
+  <!-- PWA basic meta -->
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-dark: #1a1a2e;
+      --accent-gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --purple: #7c3aed;
+      --blue: #3b82f6;
+      --bg: #f5f0eb;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2d9d0;
+      --radius-lg: 16px;
+      --shadow-md: 0 10px 25px rgba(15, 23, 42, 0.14);
+      --shadow-sm: 0 4px 10px rgba(15, 23, 42, 0.10);
+      --transition-fast: 0.18s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #e0e7ff 0, #f5f0eb 45%, #fefce8 100%);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #f5f3ff 0, #f5f0eb 20%, #fdfdfb 100%);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(90deg, rgba(15,23,42,0.96), rgba(30,64,175,0.94));
+      border-bottom: 1px solid rgba(148,163,184,0.4);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #e5e7eb;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-family: 'Baloo 2', system-ui;
+      font-size: 22px;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .brand-title span:first-child {
+      color: #e5e7eb;
+    }
+    .brand-title span:last-child {
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+    .brand-tagline {
+      font-size: 11px;
+      color: #cbd5f5;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn, .chip, .pill {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: inherit;
+    }
+
+    .btn:active, .chip:active, .pill:active {
+      transform: scale(0.96) translateY(1px);
+      box-shadow: 0 2px 6px rgba(15,23,42,0.35) inset;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      color: #111827;
+      box-shadow: 0 10px 25px rgba(234,179,8,0.35);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      box-shadow: none;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 1px solid rgba(209,213,219,0.7);
+      color: #e5e7eb;
+      padding-inline: 10px;
+      font-size: 12px;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: radial-gradient(circle at 10% 0%, rgba(15,23,42,0.6), rgba(15,23,42,1));
+      color: #fecaca;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 6px 15px rgba(15,23,42,0.4);
+    }
+
+    .content {
+      flex: 1;
+      padding: 10px 12px 64px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 0% 0%, #1d4ed8 0, #020617 55%);
+      color: #e5e7eb;
+      border-radius: 22px;
+      padding: 16px 14px 16px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(96,165,250,0.22) 0, transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(251,191,36,0.22) 0, transparent 55%);
+      opacity: 0.9;
+      z-index: -1;
+    }
+    .hero-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .hero-text h1 {
+      font-family: 'Baloo 2', system-ui;
+      font-size: 22px;
+      margin: 0 0 6px;
+      letter-spacing: 0.02em;
+    }
+    .hero-text p {
+      margin: 0;
+      font-size: 12px;
+      color: #cbd5f5;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15,23,42,0.65);
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-top: 7px;
+      border: 1px solid rgba(148,163,184,0.55);
+      backdrop-filter: blur(18px);
+    }
+    .hero-illustration {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 2px;
+    }
+    .hero-card {
+      width: 112px;
+      height: 112px;
+      border-radius: 24px;
+      border: 1px solid rgba(191,219,254,0.8);
+      background: radial-gradient(circle at 100% 0%, rgba(251,191,36,0.25) 0, transparent 50%), rgba(15,23,42,0.9);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 8px 9px;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.85);
+      transform: translateY(3px);
+    }
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #e5e7eb;
+    }
+    .hero-house {
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .hero-card-price {
+      font-size: 11px;
+      color: #fde68a;
+    }
+    .hero-chip {
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.6);
+      color: #e5e7eb;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .stat-card {
+      background: rgba(15,23,42,0.92);
+      border-radius: 999px;
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border: 1px solid rgba(148,163,184,0.65);
+    }
+    .stat-label {
+      font-size: 10px;
+      color: #cbd5f5;
+    }
+    .stat-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-bottom: 14px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .chips-row::-webkit-scrollbar {
+      display: none;
+    }
+    .chip {
+      background: rgba(255,255,255,0.9);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      white-space: nowrap;
+      box-shadow: var(--shadow-sm);
+    }
+    .chip-active {
+      background: radial-gradient(circle at 0 0, #38bdf8, #1e3a8a);
+      border-color: #bfdbfe;
+      color: #eff6ff;
+      box-shadow: 0 10px 22px rgba(37,99,235,0.4);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 4px 8px rgba(148,163,184,0.2);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+    .field textarea {
+      border-radius: 14px;
+      min-height: 80px;
+      resize: vertical;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 1px rgba(79,70,229,0.3), 0 8px 20px rgba(148,163,184,0.45);
+      background: #f9fafb;
+      transform: translateY(-1px);
+    }
+
+    .price-shortcuts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 6px;
+    }
+    .pill {
+      padding: 5px 9px;
+      font-size: 11px;
+      background: rgba(255,255,255,0.9);
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      box-shadow: 0 2px 6px rgba(148,163,184,0.4);
+    }
+
+    .filters-row {
+      display: flex;
+      gap: 6px;
+      margin: 6px 0;
+      flex-wrap: wrap;
+    }
+    .filters-row .btn {
+      flex: 1;
+      min-width: 0;
+      justify-content: center;
+    }
+    .btn-secondary {
+      background: #0f172a;
+      color: #e5e7eb;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.5);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.9);
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      box-shadow: 0 4px 10px rgba(148,163,184,0.25);
+    }
+
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .active-filters-pill {
+      border-radius: 999px;
+      background: rgba(239,246,255,0.95);
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      padding: 3px 8px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 6px 14px rgba(191,219,254,0.7);
+    }
+    .active-filters-pill button {
+      border: none;
+      background: transparent;
+      padding: 0;
+      font-size: 12px;
+      cursor: pointer;
+      color: #1e3a8a;
+    }
+
+    .sort-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .sort-row select {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      font-size: 11px;
+      background: #fff;
+    }
+
+    .info-bar {
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .listings {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 16px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(209,213,219,0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .card:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.25);
+    }
+
+    .card-photo {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      background: radial-gradient(circle at 0 0, #f97316, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fef9c3;
+      font-size: 40px;
+    }
+    .card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease-out;
+    }
+    .card:hover .card-photo img {
+      transform: scale(1.04);
+    }
+
+    .badge-strip {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #111827;
+      background: #fefce8;
+      border: 1px solid rgba(254,240,138,0.9);
+      box-shadow: 0 3px 10px rgba(15,23,42,0.5);
+    }
+    .badge-featured {
+      background: linear-gradient(135deg, #eab308, #f97316);
+      color: #111827;
+      border-color: rgba(202,138,4,0.9);
+    }
+    .badge-verified {
+      background: #dcfce7;
+      border-color: #4ade80;
+      color: #14532d;
+    }
+
+    .badge-type {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      background: rgba(15,23,42,0.9);
+      color: #fde68a;
+      border: 1px solid rgba(251,191,36,0.8);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.65);
+    }
+
+    .badge-photos {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      background: rgba(15,23,42,0.88);
+      color: #e5e7eb;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(148,163,184,0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-photo-actions {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      display: flex;
+      gap: 6px;
+    }
+    .photo-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      cursor: pointer;
+      background: rgba(15,23,42,0.85);
+      color: #e5e7eb;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.8);
+      backdrop-filter: blur(14px);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+    }
+    .photo-icon-btn:active {
+      transform: scale(0.9) translateY(1px);
+      box-shadow: 0 2px 6px rgba(15,23,42,0.8);
+    }
+    .photo-icon-btn.saved {
+      background: linear-gradient(135deg, #f97316, #ef4444);
+      color: #fef2f2;
+    }
+
+    .status-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .status-overlay.rented {
+      background: rgba(248,113,113,0.28);
+    }
+    .status-overlay.sold {
+      background: rgba(129,140,248,0.35);
+    }
+    .status-overlay span {
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: #111827;
+      background: #fee2e2;
+      border: 2px solid rgba(239,68,68,0.9);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+    }
+    .status-overlay.sold span {
+      background: #e0e7ff;
+      border-color: rgba(129,140,248,0.95);
+    }
+
+    .joined-banner {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #a855f7, #22c55e);
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 3px 12px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 12px 25px rgba(88,28,135,0.7);
+      border: 1px solid rgba(216,180,254,0.9);
+    }
+
+    .warning-joined {
+      margin: 4px 10px 0;
+      border-radius: 10px;
+      padding: 4px 8px;
+      font-size: 11px;
+      background: #fef9c3;
+      border: 1px dashed #facc15;
+      color: #854d0e;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .card-body {
+      padding: 10px 10px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #020617;
+    }
+    .card-location {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .price-line {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-top: 2px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+    .tag-pill {
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 10px;
+      background: #ecfeff;
+      color: #0e7490;
+      border: 1px solid #cffafe;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .rating-stars {
+      color: #facc15;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .time-ago {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 26px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.95);
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      box-shadow: var(--shadow-sm);
+    }
+    .empty-state-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .empty-state h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      color: #111827;
+    }
+    .empty-state p {
+      margin: 0 0 10px;
+      font-size: 12px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 6px;
+      width: 100%;
+      max-width: 480px;
+      z-index: 40;
+      pointer-events: none;
+    }
+    .bottom-nav-inner {
+      margin: 0 10px;
+      border-radius: 18px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.9);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.9);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      overflow: hidden;
+      pointer-events: auto;
+    }
+    .nav-item {
+      border: none;
+      background: transparent;
+      padding: 7px 4px 6px;
+      font-size: 10px;
+      color: #9ca3af;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      cursor: pointer;
+      position: relative;
+    }
+    .nav-item span {
+      font-size: 16px;
+    }
+    .nav-item.active {
+      background: radial-gradient(circle at 0 0, rgba(59,130,246,0.6), rgba(17,24,39,0.95));
+      color: #e5e7eb;
+      box-shadow: inset 0 0 0 1px rgba(191,219,254,0.5);
+    }
+    .nav-label {
+      font-size: 9px;
+    }
+    .nav-badge {
+      position: absolute;
+      top: 3px;
+      right: 14px;
+      min-width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fef2f2;
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      box-shadow: 0 0 0 2px rgba(15,23,42,0.9);
+    }
+
+    .tab {
+      display: none;
+      animation: fadeIn 0.28s ease-out;
+    }
+    .tab.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-container {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 62px;
+      width: 100%;
+      max-width: 480px;
+      padding: 0 12px;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .toast {
+      border-radius: 14px;
+      padding: 8px 10px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.5);
+      margin-top: 6px;
+      pointer-events: auto;
+    }
+    .toast-info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+    }
+    .toast-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+    .toast-success {
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.55);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 60;
+    }
+    .overlay.active {
+      display: flex;
+    }
+    .sheet {
+      width: 100%;
+      max-width: 480px;
+      max-height: 88vh;
+      background: #f9fafb;
+      border-radius: 22px 22px 0 0;
+      padding: 12px 14px 16px;
+      box-shadow: 0 -18px 40px rgba(15,23,42,0.75);
+      overflow-y: auto;
+      animation: slideUp 0.28s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .sheet-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .sheet-close {
+      border-radius: 999px;
+      border: none;
+      background: #e5e7eb;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .modal-center {
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-card {
+      width: 94%;
+      max-width: 420px;
+      background: #f9fafb;
+      border-radius: 18px;
+      padding: 14px 14px 16px;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.8);
+      border: 1px solid rgba(209,213,219,0.9);
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .step-dot {
+      border-radius: 999px;
+      height: 5px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+    .step-dot-inner {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f59e0b, #22c55e);
+      transform-origin: left;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+    .toggle-pill {
+      border-radius: 999px;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(148,163,184,0.25);
+    }
+    .toggle-pill input {
+      accent-color: #4f46e5;
+    }
+
+    .photo-previews {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .photo-thumb {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 12px rgba(148,163,184,0.55);
+    }
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      color: #e5e7eb;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .mini-card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .mini-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #22c55e, #0f766e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ecfdf5;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .mini-body {
+      flex: 1;
+      font-size: 12px;
+    }
+
+    .visit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin: 6px 0 8px;
+    }
+    .visit-tile {
+      border-radius: 12px;
+      padding: 7px 4px;
+      font-size: 11px;
+      text-align: center;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .visit-tile.active {
+      background: #1d4ed8;
+      border-color: #bfdbfe;
+      color: #eff6ff;
+      box-shadow: 0 8px 18px rgba(37,99,235,0.6);
+    }
+
+    .date-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin: 6px 0 8px;
+    }
+    .date-chip {
+      min-width: 72px;
+      border-radius: 12px;
+      padding: 6px 6px;
+      font-size: 11px;
+      text-align: center;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .date-chip span {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .date-chip.active {
+      background: #0f766e;
+      border-color: #6ee7b7;
+      color: #ecfdf5;
+      box-shadow: 0 8px 18px rgba(16,185,129,0.6);
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .review-item {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      background: #fff;
+      font-size: 12px;
+    }
+    .review-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+    .review-text {
+      font-size: 12px;
+      color: #111827;
+    }
+
+    .stars-input {
+      display: flex;
+      gap: 4px;
+      font-size: 20px;
+      margin: 4px 0;
+    }
+    .stars-input button {
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .similar-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-top: 6px;
+    }
+    .similar-card {
+      min-width: 150px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      padding: 8px 8px 9px;
+      font-size: 11px;
+    }
+
+    .qr-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 10px;
+    }
+    .qr-box img {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 6px;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.6);
+    }
+
+    .pwa-banner {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 58px;
+      width: 100%;
+      max-width: 480px;
+      padding: 0 10px;
+      z-index: 45;
+      display: none;
+    }
+    .pwa-banner-inner {
+      border-radius: 16px;
+      background: linear-gradient(135deg, #0f172a, #1e40af);
+      color: #e5e7eb;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.8);
+      border: 1px solid rgba(129,140,248,0.9);
+    }
+    .pwa-text {
+      font-size: 11px;
+      flex: 1;
+    }
+
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      z-index: 80;
+      color: #e5e7eb;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 3px solid rgba(148,163,184,0.4);
+      border-top-color: #f59e0b;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-height: 640px) {
+      .hero {
+        margin-bottom: 10px;
+      }
+      .content {
+        padding-bottom: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading-screen">
+    <div class="spinner"></div>
+    <div style="font-family: 'Baloo 2', system-ui; font-size: 18px;">GharMilo</div>
+    <div style="font-size: 12px; color: #9ca3af;" data-i18n="loadingText">Loading homes in Naidupeta…</div>
+  </div>
+
+  <div class="app-shell" style="display:none" id="appShell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-title">
+          <span>Ghar</span><span>Milo</span>
+        </div>
+        <span class="brand-tagline" data-i18n="tagline">Naidupeta's #1 Home Finder</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-outline-light" id="langToggleBtn" onclick="window.toggleLanguage()">తెలుగు</button>
+        <button class="icon-btn" onclick="window.goToSaved()" aria-label="Saved houses">
+          ❤️
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <div class="hero-main">
+          <div class="hero-text">
+            <h1 data-i18n="heroTitle">Find Your Ghar in Naidupeta</h1>
+            <p data-i18n="heroSubtitle">Find verified homes from real owners</p>
+            <div class="hero-pill">
+              <span>🏠</span>
+              <span data-i18n="heroPill">Homes only in Naidupeta town</span>
+            </div>
+          </div>
+          <div class="hero-illustration" aria-hidden="true">
+            <div class="hero-card">
+              <div class="hero-card-top">
+                <span>Naidupeta</span>
+                <span></span>
+              </div>
+              <div class="hero-house">🏡</div>
+              <div class="hero-card-bottom">
+                <div class="hero-card-price">
+                  <div style="font-size:9px;color:#9ca3af;"></div>
+                  <div></div>
+                </div>
+                <div class="hero-chip">
+                  <div style="font-size:9px;">Zero broker fee</div>
+                  <div style="font-size:8px;color:#e5e7eb;">Owners only</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-row" aria-label="Listing statistics">
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="statTotal">Total Houses</span>
+            <span class="stat-value" id="statTotal">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="statAvailable">Available Now</span>
+            <span class="stat-value" id="statAvailable">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="statAreas">Areas</span>
+            <span class="stat-value">22</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-find" class="tab active">
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="selectArea">Select Area</div>
+              <div class="section-subtitle" data-i18n="selectAreaHint">Tap to filter houses by location</div>
+            </div>
+          </div>
+          <div class="chips-row" id="areaChips"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="bhkType">BHK Type</div>
+              <div class="section-subtitle" data-i18n="bhkHint">Choose preferred configuration</div>
+            </div>
+          </div>
+          <div class="chips-row" id="bhkChips"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="priceRange">Price Range (per month)</div>
+              <div class="section-subtitle" data-i18n="priceHint">Live updates as you type</div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="minPrice" data-i18n="minPrice">Min Price</label>
+              <input id="minPrice" type="number" inputmode="numeric" placeholder="₹0" oninput="window.onPriceChange()">
+            </div>
+            <div class="field">
+              <label for="maxPrice" data-i18n="maxPrice">Max Price</label>
+              <input id="maxPrice" type="number" inputmode="numeric" placeholder="₹20,000" oninput="window.onPriceChange()">
+            </div>
+          </div>
+          <div class="price-shortcuts">
+            <button class="pill" onclick="window.setPriceShortcut('under5')">Under ₹5K</button>
+            <button class="pill" onclick="window.setPriceShortcut('5to8')">₹5K–₹8K</button>
+            <button class="pill" onclick="window.setPriceShortcut('8to12')">₹8K–₹12K</button>
+            <button class="pill" onclick="window.setPriceShortcut('above12')">Above ₹12K</button>
+          </div>
+          <div class="filters-row">
+            <button class="btn btn-primary" style="flex: 2;" onclick="window.applySearch()" data-i18n="searchBtn">Search Houses</button>
+            <button class="btn btn-ghost" style="flex: 1;" onclick="window.resetFilters()" data-i18n="resetBtn">Reset All</button>
+          </div>
+          <div class="active-filters" id="activeFilters"></div>
+        </section>
+
+        <section class="section">
+          <div class="sort-row">
+            <div>
+              <span id="countFound">0</span>
+              <span data-i18n="housesFound">houses found</span>
+            </div>
+            <div>
+              <label for="sortSelect" style="margin-right:4px;" data-i18n="sortBy">Sort</label>
+              <select id="sortSelect" onchange="window.applySearch()">
+                <option value="newest" data-i18n="sortNewest">Newest First</option>
+                <option value="priceLow" data-i18n="sortPriceLow">Price: Low to High</option>
+                <option value="priceHigh" data-i18n="sortPriceHigh">Price: High to Low</option>
+                <option value="topRated" data-i18n="sortTopRated">Top Rated</option>
+              </select>
+            </div>
+          </div>
+          <div class="info-bar">
+            <span>📍</span>
+            <span data-i18n="blueBar">Houses only in Naidupeta — Tummur to Pichhi Reddy Topu</span>
+          </div>
+          <div id="listingContainer" class="listings"></div>
+        </section>
+      </section>
+
+      <section id="tab-list" class="tab">
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="listHouseTitle">List Your House</div>
+              <div class="section-subtitle" data-i18n="listHouseSubtitle">4 quick steps • Free forever</div>
+            </div>
+          </div>
+          <div class="stepper" aria-hidden="true">
+            <div class="step-dot"><div id="stepDot1" class="step-dot-inner" style="width:100%"></div></div>
+            <div class="step-dot"><div id="stepDot2" class="step-dot-inner" style="width:0"></div></div>
+            <div class="step-dot"><div id="stepDot3" class="step-dot-inner" style="width:0"></div></div>
+            <div class="step-dot"><div id="stepDot4" class="step-dot-inner" style="width:0"></div></div>
+          </div>
+
+          <div id="listStep1">
+            <div class="field">
+              <label data-i18n="ownerName">Owner Full Name *</label>
+              <input id="ownerName" type="text" placeholder="e.g. Ramesh Kumar">
+            </div>
+            <div class="field">
+              <label data-i18n="ownerPhone">WhatsApp / Phone *</label>
+              <input id="ownerPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="10 digit mobile">
+            </div>
+            <div class="field">
+              <label data-i18n="ownerArea">Area in Naidupeta *</label>
+              <select id="ownerArea"></select>
+            </div>
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <button class="btn btn-primary" style="flex:1" onclick="window.nextListStep(2)" data-i18n="nextBtn">Next</button>
+            </div>
+          </div>
+
+          <div id="listStep2" style="display:none">
+            <div class="field">
+              <label data-i18n="propTitle">Property Title *</label>
+              <input id="propTitle" type="text" placeholder="Sunny 2BHK near Bus Stop">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label data-i18n="propType">Type</label>
+                <select id="propType">
+                  <option value="Rent">Rent</option>
+                  <option value="Sale">Sale</option>
+                </select>
+              </div>
+              <div class="field">
+                <label data-i18n="propBhk">BHK</label>
+                <select id="propBhk">
+                  <option value="Any">Any</option>
+                  <option value="1BHK">1BHK</option>
+                  <option value="2BHK">2BHK</option>
+                  <option value="3BHK">3BHK</option>
+                  <option value="4BHK+">4BHK+</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label data-i18n="monthlyRent">Monthly Rent *</label>
+                <input id="propRent" type="number" inputmode="numeric" placeholder="₹8000">
+              </div>
+              <div class="field">
+                <label data-i18n="deposit">Deposit</label>
+                <input id="propDeposit" type="number" inputmode="numeric" placeholder="₹15000">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label data-i18n="areaSqft">Area (sqft)</label>
+                <input id="propAreaSqft" type="number" inputmode="numeric" placeholder="900">
+              </div>
+              <div class="field">
+                <label data-i18n="furnishing">Furnishing</label>
+                <select id="propFurnish">
+                  <option value="Unfurnished">Unfurnished</option>
+                  <option value="Semi-Furnished">Semi-Furnished</option>
+                  <option value="Fully Furnished">Fully Furnished</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label data-i18n="waterSupply">Water Supply</label>
+                <select id="propWater">
+                  <option value="24/7">24/7</option>
+                  <option value="Morning+Evening">Morning+Evening</option>
+                  <option value="Borewell">Borewell</option>
+                </select>
+              </div>
+              <div class="field">
+                <label data-i18n="uploadPhotos">Upload Photos (max 4)</label>
+                <input id="propPhotos" type="file" accept="image/*" multiple onchange="window.handlePhotoUpload(event)">
+              </div>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle-pill">
+                <input id="propParking" type="checkbox">
+                <span data-i18n="parking">Parking</span>
+              </label>
+              <label class="toggle-pill">
+                <input id="propLift" type="checkbox">
+                <span data-i18n="lift">Lift</span>
+              </label>
+            </div>
+            <div class="photo-previews" id="photoPreview"></div>
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <button class="btn btn-ghost" style="flex:1" onclick="window.prevListStep(1)" data-i18n="backBtn">Back</button>
+              <button class="btn btn-primary" style="flex:1" onclick="window.nextListStep(3)" data-i18n="nextBtn">Next</button>
+            </div>
+          </div>
+
+          <div id="listStep3" style="display:none">
+            <div class="field">
+              <label data-i18n="conditions">Owner Conditions *</label>
+              <textarea id="propConditions" placeholder="Vegetarian family preferred, no bachelors"></textarea>
+            </div>
+            <div class="field">
+              <label data-i18n="tags">Tags (comma separated)</label>
+              <input id="propTags" type="text" placeholder="Family, Peaceful, Near Market">
+            </div>
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <button class="btn btn-ghost" style="flex:1" onclick="window.prevListStep(2)" data-i18n="backBtn">Back</button>
+              <button class="btn btn-primary" style="flex:1" onclick="window.nextListStep(4)" data-i18n="nextBtn">Next</button>
+            </div>
+          </div>
+
+          <div id="listStep4" style="display:none">
+            <div class="section-subtitle" style="margin-bottom:6px;" data-i18n="previewSubtitle">Preview how your home will appear to seekers</div>
+            <div id="previewCardPlaceholder" class="card" style="margin-bottom:10px;"></div>
+            <div class="empty-state" style="text-align:left; margin-bottom:10px; background:#fffbeb; border-color:#facc15;">
+              <div style="font-size:20px; margin-bottom:6px;">⚠️</div>
+              <h3 style="font-size:14px; margin-bottom:4px;" data-i18n="noticeTitle">Important Notice Before Publishing</h3>
+              <p style="font-size:12px; margin-bottom:4px;" data-i18n="noticeLine1">Your listing will be active for 30 days.</p>
+              <p style="font-size:12px; margin-bottom:4px;" data-i18n="noticeLine2">After 27 days — open My Listings and tap 🟢 Available to renew FREE for 30 more days.</p>
+              <p style="font-size:12px; margin-bottom:4px;" data-i18n="noticeLine3">If you do nothing, the listing is automatically removed after 30 days.</p>
+              <p style="font-size:12px; margin-bottom:0;" data-i18n="noticeLine4">This is automatic. It is not our responsibility if removed. To appear again, list again for FREE.</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-ghost" style="flex:1" onclick="window.prevListStep(3)" data-i18n="backBtn">Back</button>
+              <button class="btn btn-primary" style="flex:1" onclick="window.publishListing()">🚀 <span data-i18n="publishBtn">Publish FREE on GharMilo</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section id="listSuccess" class="section" style="display:none">
+          <div class="empty-state" style="background:#ecfdf5; border-color:#6ee7b7;">
+            <div class="empty-state-icon">🎉</div>
+            <h3 data-i18n="listedTitle">Property Listed!</h3>
+            <p data-i18n="listedTips">Share on WhatsApp, keep price realistic and always answer calls quickly for more inquiries.</p>
+            <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+              <button class="btn btn-secondary" onclick="window.switchTab('find')" data-i18n="browseHouses">Browse Houses</button>
+              <button class="btn btn-primary" onclick="window.resetForm()" data-i18n="listAnother">List Another</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="tab-saved" class="tab">
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="savedHeading">Your Saved Houses</div>
+              <div class="section-subtitle" data-i18n="savedSubheading">Compare and decide later</div>
+            </div>
+          </div>
+          <div id="savedListContainer" class="listings"></div>
+        </section>
+      </section>
+
+      <section id="tab-mine" class="tab">
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title" data-i18n="manageHeading">Manage Properties</div>
+              <div class="section-subtitle" data-i18n="manageSubheading">View and update your listings</div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" style="flex:2;">
+              <label data-i18n="dashPhoneLabel">Enter your phone (10 digits)</label>
+              <input id="dashPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="Your listing phone">
+            </div>
+            <div class="field" style="flex:1;">
+              <label>&nbsp;</label>
+              <button class="btn btn-secondary" style="width:100%;" onclick="window.loadMyListings()" data-i18n="dashViewBtn">View My Listings</button>
+            </div>
+          </div>
+          <div id="myListingsContainer" class="listings"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="bottom-nav">
+      <div class="bottom-nav-inner">
+        <button class="nav-item active" id="nav-find" onclick="window.switchTab('find')">
+          <span>🔍</span>
+          <div class="nav-label" data-i18n="navFind">Find Home</div>
+        </button>
+        <button class="nav-item" id="nav-list" onclick="window.switchTab('list')">
+          <span>➕</span>
+          <div class="nav-label" data-i18n="navList">List House</div>
+        </button>
+        <button class="nav-item" id="nav-saved" onclick="window.switchTab('saved')">
+          <span>❤️</span>
+          <div class="nav-label" data-i18n="navSaved">Saved</div>
+          <div id="savedBadge" class="nav-badge" style="display:none;">0</div>
+        </button>
+        <button class="nav-item" id="nav-mine" onclick="window.switchTab('mine')">
+          <span>🏠</span>
+          <div class="nav-label" data-i18n="navMine">My Listings</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="overlay" id="detailOverlay">
+    <div class="sheet">
+      <div class="sheet-header">
+        <button class="btn btn-ghost" onclick="window.closeDetail()">
+          ◀ <span data-i18n="backBtn">Back</span>
+        </button>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="photo-icon-btn" id="detailHeartBtn" onclick="window.toggleSaveFromDetail()">
+            ❤️
+          </button>
+        </div>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="reportOverlay">
+    <div class="sheet">
+      <div class="sheet-header">
+        <div class="sheet-title" data-i18n="reportTitle">Report Listing</div>
+        <button class="sheet-close" onclick="window.closeReport()">✕</button>
+      </div>
+      <div id="reportContent"></div>
+    </div>
+  </div>
+
+  <div class="overlay modal-center" id="joinedOverlay">
+    <div class="modal-card">
+      <div class="sheet-header" style="margin-bottom:6px;">
+        <div class="sheet-title" data-i18n="joinedTitle">I Joined This House</div>
+        <button class="sheet-close" onclick="window.closeJoined()">✕</button>
+      </div>
+      <div style="font-size:12px; color:#4b5563;" data-i18n="joinedText">Please support GharMilo with a small ₹5 thanks payment. We will notify the owner that you have joined this house.</div>
+      <div class="qr-box">
+        <div style="font-size:13px; font-weight:600;">₹5 • 7207521486@ptaxis</div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=upi://pay?pa=7207521486@ptaxis%26pn=GharMilo%26am=5%26cu=INR" width="170" height="170" alt="UPI QR">
+        <button class="btn btn-secondary" onclick="window.openUpi()" data-i18n="payBtn">Pay ₹5 via UPI App</button>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:4px;">
+        <button class="btn btn-primary" style="flex:1" onclick="window.confirmJoinedPaid()" data-i18n="iPaidBtn">✅ I Paid — Notify Owner</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="window.skipJoined()" data-i18n="skipBtn">Skip for now</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pwa-banner" id="pwaBanner">
+    <div class="pwa-banner-inner">
+      <div style="font-size:22px;">📲</div>
+      <div class="pwa-text">
+        <div style="font-size:12px; font-weight:600;" data-i18n="pwaTitle">Add GharMilo to Home Screen</div>
+        <div style="font-size:11px;" data-i18n="pwaSubtitle">Works like a real app. Offline friendly & super fast.</div>
+      </div>
+      <button class="btn btn-primary" style="padding:6px 10px; font-size:11px;" onclick="window.installPwa()" data-i18n="pwaInstallBtn">Install</button>
+      <button class="sheet-close" style="width:24px;height:24px;" onclick="window.dismissPwa()">✕</button>
+    </div>
+  </div>
+
+  <!-- Firebase COMPAT SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4J9-dvMTaETFE_ZU2HrKi6Wdz2NyjafA",
+      authDomain: "gharmilo.firebaseapp.com",
+      databaseURL: "https://gharmilo-default-rtdb.firebaseio.com",
+      projectId: "gharmilo",
+      storageBucket: "gharmilo.firebasestorage.app",
+      messagingSenderId: "734382282773",
+      appId: "1:734382282773:web:82bc902ecd146a6b36561c"
+    };
+
+    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+    const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
+    const YEAR2020 = 1577836800000;
+
+    const AREAS = [
+      "All Areas",
+      "Jamiya Masjid Street",
+      "Gandhi Nagar",
+      "Near Bus Stop",
+      "Near Railway Station",
+      "Near LIC Office",
+      "CS Teja Hall",
+      "Tummur",
+      "Near Extra Mark",
+      "Near Narayana School",
+      "Near Vema College",
+      "Near Visvam College",
+      "Sakal Colony",
+      "Near Jio Office",
+      "Near Clock Centre",
+      "Pichhi Reddy Topu",
+      "Near Indian Bank",
+      "Beripeta",
+      "Vinnamala",
+      "Near Sai Baba Temple",
+      "Near SBI Bank",
+      "Near Jack & Jill High School",
+      "Near Kummara Vidi"
+    ];
+
+    const BHK_OPTIONS = ["Any", "1BHK", "2BHK", "3BHK", "4BHK+"];
+
+    const EMOJIS = ["🏡","🏘️","🏠","🏚️","🏙️","🌇","🌆"];
+    const BG_COLORS = ["#eef2ff","#eff6ff","#ecfdf5","#fef9c3","#fffbeb","#fee2e2"];
+
+    const translations = {
+      en: {
+        tagline: "Naidupeta's #1 Home Finder",
+        heroTitle: "Find Your Ghar in Naidupeta",
+        heroSubtitle: "Direct owners • Zero broker fee • Call instantly",
+        heroPill: "Local homes from Tummur to Pichhi Reddy Topu",
+        statTotal: "Total Houses",
+        statAvailable: "Available Now",
+        statAreas: "Areas",
+        selectArea: "Select Area",
+        selectAreaHint: "Tap to filter houses by location",
+        bhkType: "BHK Type",
+        bhkHint: "Choose preferred configuration",
+        priceRange: "Price Range (per month)",
+        priceHint: "Live updates as you type",
+        minPrice: "Min Price",
+        maxPrice: "Max Price",
+        searchBtn: "Search Houses",
+        resetBtn: "Reset All",
+        housesFound: "houses found",
+        sortBy: "Sort",
+        sortNewest: "Newest First",
+        sortPriceLow: "Price: Low to High",
+        sortPriceHigh: "Price: High to Low",
+        sortTopRated: "Top Rated",
+        blueBar: "Houses only in Naidupeta — Tummur to Pichhi Reddy Topu",
+        listHouseTitle: "List Your House",
+        listHouseSubtitle: "4 quick steps • Free forever",
+        ownerName: "Owner Full Name *",
+        ownerPhone: "WhatsApp / Phone *",
+        ownerArea: "Area in Naidupeta *",
+        nextBtn: "Next",
+        backBtn: "Back",
+        propTitle: "Property Title *",
+        propType: "Type",
+        propBhk: "BHK",
+        monthlyRent: "Monthly Rent *",
+        deposit: "Deposit",
+        areaSqft: "Area (sqft)",
+        furnishing: "Furnishing",
+        waterSupply: "Water Supply",
+        uploadPhotos: "Upload Photos (max 4)",
+        parking: "Parking",
+        lift: "Lift",
+        conditions: "Owner Conditions *",
+        tags: "Tags (comma separated)",
+        previewSubtitle: "Preview how your home will appear to seekers",
+        noticeTitle: "Important Notice Before Publishing",
+        noticeLine1: "Your listing will be active for 30 days.",
+        noticeLine2: "After 27 days — open My Listings and tap 🟢 Available to renew FREE for 30 more days.",
+        noticeLine3: "If you do nothing, the listing is automatically removed after 30 days.",
+        noticeLine4: "This is automatic. It is not our responsibility if removed. To appear again, list again for FREE.",
+        publishBtn: "Publish FREE on GharMilo",
+        listedTitle: "Property Listed!",
+        listedTips: "Share on WhatsApp, keep price realistic and always answer calls quickly for more inquiries.",
+        browseHouses: "Browse Houses",
+        listAnother: "List Another",
+        savedHeading: "Your Saved Houses",
+        savedSubheading: "Compare and decide later",
+        manageHeading: "Manage Properties",
+        manageSubheading: "View and update your listings",
+        dashPhoneLabel: "Enter your phone (10 digits)",
+        dashViewBtn: "View My Listings",
+        navFind: "Find Home",
+        navList: "List House",
+        navSaved: "Saved",
+        navMine: "My Listings",
+        reportTitle: "Report Listing",
+        joinedTitle: "I Joined This House",
+        joinedText: "Please support GharMilo with a small ₹5 thanks payment. We will notify the owner that you have joined this house.",
+        payBtn: "Pay ₹5 via UPI App",
+        iPaidBtn: "✅ I Paid — Notify Owner",
+        skipBtn: "Skip for now",
+        pwaTitle: "Add GharMilo to Home Screen",
+        pwaSubtitle: "Works like a real app. Offline friendly & super fast.",
+        pwaInstallBtn: "Install",
+        loadingText: "Loading homes in Naidupeta…",
+        toastInvalidPhone: "Please enter a valid 10 digit phone number.",
+        toastNameRequired: "Name is required.",
+        toastAreaRequired: "Please select an area.",
+        toastTitleRequired: "Property title is required.",
+        toastRentRequired: "Monthly rent must be greater than ₹0.",
+        toastConditionsRequired: "Please enter owner conditions.",
+        toastMinMax: "Minimum price cannot be greater than maximum.",
+        toastVisitFields: "Please fill all visit details correctly.",
+        toastReportReason: "Please select a reason.",
+        toastReviewFields: "Select rating and fill name and review text.",
+        toastPublished: "Property listed successfully on GharMilo!",
+        toastSaved: "Added to saved houses.",
+        toastUnsaved: "Removed from saved houses.",
+        toastJoined: "Marked as joined. Owner will be notified.",
+        toastStatusUpdated: "Status updated.",
+        toastDeleted: "Listing deleted.",
+        toastRenewed: "Listing renewed for 30 more days.",
+        emptyNoListingsTitle: "No houses listed yet",
+        emptyNoListingsText: "Be the first owner to list a house in Naidupeta.",
+        emptyNoSavedTitle: "No Saved Houses",
+        emptyNoSavedText: "Tap ❤️ on any listing to save it here.",
+        emptyNoFiltersTitle: "No houses match filters",
+        emptyNoFiltersText: "Try adjusting your filters or reset all.",
+        statusAvailable: "AVAILABLE",
+        statusRented: "RENTED",
+        statusSold: "SOLD",
+        expiryActive: "Active for {d} more days",
+        expirySoon: "Expires in {d} days",
+        expiryUrgent: "URGENT! Expires in {d} days! Tap 🟢 Available to renew",
+        expiryExpired: "EXPIRED — Listing will be auto deleted",
+        reviewHeading: "Reviews",
+        writeReview: "Write a Review",
+        reviewName: "Your name",
+        reviewText: "Your experience",
+        submitReview: "Submit Review",
+        contactHeading: "Contact Owner",
+        showContact: "Show Contact",
+        callOwner: "Call Owner",
+        waOwner: "WhatsApp Owner",
+        scheduleVisit: "Schedule a Visit",
+        shareListing: "Share This Listing",
+        joinedBtn: "I Joined This House — Notify Owner",
+        reportBtn: "Report Fake/Wrong Listing",
+        similarHeading: "Similar Houses",
+        saveBtn: "Save",
+        savedBtn: "Saved",
+        viewBtn: "View",
+        removeBtn: "Remove",
+        noReviews: "No reviews yet",
+        timeJustNow: "just now",
+        timeMinutes: "{m} min ago",
+        timeHours: "{h} hr ago",
+        timeDays: "{d} days ago",
+        joinedWarning: "If you have joined this house, click the 'I Joined' button to notify owner.",
+        expSoonSelf: "Send WhatsApp reminder to yourself to renew listing.",
+        reportReason1: "House does not exist",
+        reportReason2: "Wrong price / misleading info",
+        reportReason3: "Wrong phone number",
+        reportReason4: "Fake / stolen photos",
+        reportReason5: "Already rented but still listed",
+        reportReason6: "Spam or duplicate listing",
+        reportDetailsPlaceholder: "Optional details to help us review",
+        reportSubmit: "Submit Report",
+        visitDateHeading: "Choose date",
+        visitTimeHeading: "Choose time slot",
+        visitName: "Your name",
+        visitPhone: "Your phone",
+        visitSendBtn: "Send Visit Request",
+        ownerStatusAvailable: "Available",
+        ownerStatusRented: "Rented",
+        ownerStatusSold: "Sold",
+        ownerEdit: "Edit",
+        ownerDelete: "Delete",
+        ownerRenew: "Renew Listing (30 days FREE)",
+        ownerViews: "views"
+      },
+      te: {
+        tagline: "నాయుడుపేటలో #1 ఇల్లు సెర్చ్",
+        heroTitle: "నాయుడుపేటలో మీ గృహం వెతకండి",
+        heroSubtitle: "ఓనర్స్ మాత్రమే • బ్రోకర్ ఫీజు లేదు • వెంటనే కాల్ చేయండి",
+        heroPill: "టుమ్మూరు నుండి పిచ్చిరెడ్డి తోపు వరకు లోకల్ ఇళ్లు",
+        statTotal: "మొత్తం ఇళ్లు",
+        statAvailable: "ఇప్పుడు ఖాళీ",
+        statAreas: "ప్రాంతాలు",
+        selectArea: "ప్రాంతం ఎంపిక చేయండి",
+        selectAreaHint: "లోకేషన్ ద్వారా ఇళ్లు ఫిల్టర్ చేయండి",
+        bhkType: "BHK టైప్",
+        bhkHint: "మీకు కావాలసిన సెటప్",
+        priceRange: "అద్దె పరిధి (నెలకు)",
+        priceHint: "టైప్ చేస్తూనే లైవ్ రిజల్ట్స్",
+        minPrice: "కనిష్ట అద్దె",
+        maxPrice: "గరిష్ట అద్దె",
+        searchBtn: "ఇళ్లు సెర్చ్ చేయండి",
+        resetBtn: "రీసెట్ ఆల్",
+        housesFound: "ఇళ్లు దొరికాయి",
+        sortBy: "సార్ట్",
+        sortNewest: "కొత్తవి ముందుగా",
+        sortPriceLow: "అద్దె: తక్కువ నుండి ఎక్కువ",
+        sortPriceHigh: "అద్దె: ఎక్కువ నుండి తక్కువ",
+        sortTopRated: "బెస్ట్ రేటింగ్",
+        blueBar: "టుమ్మూరు నుండి పిచ్చిరెడ్డి తోపు వరకు నాయుడుపేటలో ఉన్న ఇళ్లు మాత్రమే చూపిస్తున్నాం",
+        listHouseTitle: "మీ ఇల్లును లిస్ట్ చేయండి",
+        listHouseSubtitle: "4 ఈజీ స్టెప్స్ • ఫ్రీ",
+        ownerName: "ఓనర్ పూర్తి పేరు *",
+        ownerPhone: "WhatsApp / ఫోన్ *",
+        ownerArea: "నాయుడుపేట ప్రాంతం *",
+        nextBtn: "నెక్స్ట్",
+        backBtn: "బ్యాక్",
+        propTitle: "ప్రాపర్టీ టైటిల్ *",
+        propType: "టైప్",
+        propBhk: "BHK",
+        monthlyRent: "నెలవారీ అద్దె *",
+        deposit: "డిపాజిట్",
+        areaSqft: "ఎరియా (స్క్వేర్ ఫీట్)",
+        furnishing: "ఫర్నిషింగ్",
+        waterSupply: "వాటర్ సప్లై",
+        uploadPhotos: "ఫోటోలు అప్‌లోడ్ చేయండి (గరిష్టం 4)",
+        parking: "పార్కింగ్",
+        lift: "లిఫ్ట్",
+        conditions: "ఓనర్ కండీశన్స్ *",
+        tags: "ట్యాగ్స్ (కామా తో విడగొట్టు)",
+        previewSubtitle: "సీకర్స్‌కు మీ ఇల్లు ఎలా కనిపిస్తోందో ఇక్కడ చూడండి",
+        noticeTitle: "పబ్లిష్ చేయడానికి ముందు ముఖ్య గమనిక",
+        noticeLine1: "మీ లిస్టింగ్ 30 రోజులు యాక్టివ్‌గా ఉంటుంది.",
+        noticeLine2: "27 రోజులు అయిన తర్వాత — My Listings లోకి వెళ్లి 🟢 Available నొక్కితే 30 రోజులు ఫ్రీగా రీన్యూ అవుతుంది.",
+        noticeLine3: "ఏమీ చేయకపోతే 30 రోజులు తర్వాత లిస్టింగ్ ఆటోమేటిక్‌గా తొలగించబడుతుంది.",
+        noticeLine4: "ఇది ఆటోమేటిక్. తొలగించినందుకు మా బాధ్యత కాదు. మళ్లీ కనిపించాలంటే ఫ్రీగా కొత్త లిస్టింగ్ క్రియేట్ చేయండి.",
+        publishBtn: "GharMilo లో ఫ్రీగా పబ్లిష్ చేయండి",
+        listedTitle: "ప్రాపర్టీ లిస్ట్ అయింది!",
+        listedTips: "WhatsApp లో షేర్ చేయండి, రీజనబుల్ అద్దె పెట్టండి, కాల్స్ మిస్ కాకండి — ఇన్క్వైరీలు ఎక్కువగా వస్తాయి.",
+        browseHouses: "ఇళ్లు బ్రౌజ్ చేయండి",
+        listAnother: "మరొక ఇల్లు లిస్ట్ చేయండి",
+        savedHeading: "మీ సేవ్ చేసిన ఇళ్లు",
+        savedSubheading: "తరువాత కూల్‌గా కంపేర్ చేయండి",
+        manageHeading: "ప్రాపర్టీలు మేనేజ్ చేయండి",
+        manageSubheading: "మీ అన్ని లిస్టింగ్స్ ఇక్కడ చూస్తారు",
+        dashPhoneLabel: "మీ ఫోన్ నంబర్ (10 అంకెలు)",
+        dashViewBtn: "నా లిస్టింగ్స్ చూడండి",
+        navFind: "ఇల్లు సెర్చ్",
+        navList: "ఇల్లు లిస్ట్",
+        navSaved: "సేవ్ చేసినవి",
+        navMine: "నా లిస్టింగ్స్",
+        reportTitle: "లిస్టింగ్ రిపోర్ట్ చేయండి",
+        joinedTitle: "నేను ఈ ఇల్లు జాయిన్ అయ్యాను",
+        joinedText: "చిన్న ₹5 థ్యాంక్స్ పేమెంట్‌తో GharMilo ను సపోర్ట్ చేయండి. మీరు ఈ ఇల్లు జాయిన్ అయ్యారని ఓనర్‌కు మేము తెలియజేస్తాం.",
+        payBtn: "UPI యాప్ ద్వారా ₹5 చెల్లించండి",
+        iPaidBtn: "✅ పేమెంట్ చేశాను — ఓనర్‌కు చెప్పండి",
+        skipBtn: "ఇప్పుడే వద్దు",
+        pwaTitle: "GharMilo ను హోమ్ స్క్రీన్ కు జోడించండి",
+        pwaSubtitle: "యాప్ లాగే పనిచేస్తుంది. ఫాస్ట్ & ఆఫ్‌లైన్ ఫ్రెండ్లీ.",
+        pwaInstallBtn: "ఇన్‌స్టాల్",
+        loadingText: "నాయుడుపేట ఇళ్లు లోడ్ అవుతున్నాయి…",
+        toastInvalidPhone: "దయచేసి సరైన 10 అంకెల ఫోన్ నంబర్ ఇవ్వండి.",
+        toastNameRequired: "పేరు అవసరం.",
+        toastAreaRequired: "దయచేసి ప్రాంతం ఎంపిక చేయండి.",
+        toastTitleRequired: "ప్రాపర్టీ టైటిల్ తప్పనిసరి.",
+        toastRentRequired: "నెలవారీ అద్దె ₹0 కంటే ఎక్కువ ఉండాలి.",
+        toastConditionsRequired: "దయచేసి ఓనర్ కండీశన్స్ టైప్ చేయండి.",
+        toastMinMax: "కనిష్ట అద్దె గరిష్ట అద్దె కంటే ఎక్కువ ఉండకూడదు.",
+        toastVisitFields: "విజిట్ డీటైల్స్ అన్ని సరైన విధంగా నింపండి.",
+        toastReportReason: "ఒక కారణం ఎంపిక చేయండి.",
+        toastReviewFields: "రేటింగ్ ఎంపిక చేసి, పేరు & రివ్యూ టెక్స్ట్ నింపండి.",
+        toastPublished: "మీ ప్రాపర్టీ విజయవంతంగా GharMilo లో లిస్ట్ అయింది!",
+        toastSaved: "సేవ్ చేసిన ఇళ్ళలోకి జోడించబడింది.",
+        toastUnsaved: "సేవ్ చేసిన ఇళ్ళనుండి తొలగించబడింది.",
+        toastJoined: "ఈ ఇల్లు జాయిన్ అయినట్లు మార్క్ చేయబడింది. ఓనర్‌కు మెసేజ్ పంపబడుతుంది.",
+        toastStatusUpdated: "స్టేటస్ అప్డేట్ అయింది.",
+        toastDeleted: "లిస్టింగ్ తొలగించబడింది.",
+        toastRenewed: "లిస్టింగ్ మరో 30 రోజులకు రీన్యూ అయింది.",
+        emptyNoListingsTitle: "ఇంకా ఎలాంటి ఇళ్లు లిస్ట్ కాలేదు",
+        emptyNoListingsText: "నాయుడుపేటలో మొదటి ఓనర్ మీరు కావచ్చు!",
+        emptyNoSavedTitle: "సేవ్ చేసిన ఇళ్లు లేవు",
+        emptyNoSavedText: "ఏ లిస్టింగ్ పైనైనా ❤️ నొక్కి ఇక్కడ సేవ్ చేసుకోండి.",
+        emptyNoFiltersTitle: "ఫిల్టర్స్ కి సరిపడే ఇళ్లు లేవు",
+        emptyNoFiltersText: "ఫిల్టర్స్ తగ్గించండి లేదా రీసెట్ ఆల్ నొక్కండి.",
+        statusAvailable: "AVAILABLE",
+        statusRented: "RENTED",
+        statusSold: "SOLD",
+        expiryActive: "{d} రోజులు యాక్టివ్ గా ఉంటుంది",
+        expirySoon: "{d} రోజుల్లో ముగుస్తుంది",
+        expiryUrgent: "URGENT! {d} రోజుల్లో ముగుస్తుంది! రీన్యూ చేయడానికి 🟢 Available నొక్కండి",
+        expiryExpired: "EXPIRED — లిస్టింగ్ ఆటోమేటిక్ గా డిలీట్ అవుతుంది",
+        reviewHeading: "రివ్యూస్",
+        writeReview: "రివ్యూ రాయండి",
+        reviewName: "మీ పేరు",
+        reviewText: "మీ అనుభవం",
+        submitReview: "రివ్యూ సబ్మిట్ చేయండి",
+        contactHeading: "ఓనర్‌ను సంప్రదించండి",
+        showContact: "కాంటాక్ట్ చూపించు",
+        callOwner: "ఓనర్‌కు కాల్ చేయండి",
+        waOwner: "WhatsApp మెసేజ్ పంపండి",
+        scheduleVisit: "విజిట్ షెడ్యూల్ చేయండి",
+        shareListing: "ఈ లిస్టింగ్‌ను షేర్ చేయండి",
+        joinedBtn: "నేను జాయిన్ అయ్యాను — ఓనర్‌కు చెప్పండి",
+        reportBtn: "ఫేక్/తప్పు లిస్టింగ్ రిపోర్ట్ చేయండి",
+        similarHeading: "మరికొన్ని ఇల్లు ఆప్షన్స్",
+        saveBtn: "సేవ్",
+        savedBtn: "సేవ్ అయింది",
+        viewBtn: "వ్యూకు తెరవండి",
+        removeBtn: "రిమూవ్ చేయండి",
+        noReviews: "ఇంకా ఎలాంటి రివ్యూస్ లేవు",
+        timeJustNow: "ఇప్పుడే",
+        timeMinutes: "{m} నిమి క్రితం",
+        timeHours: "{h} గంట క్రితం",
+        timeDays: "{d} రోజులు క్రితం",
+        joinedWarning: "మీరు ఈ ఇల్లు జాయిన్ అయితే, 'I Joined' బటన్ నొక్కి ఓనర్‌కు తెలియజేయండి.",
+        expSoonSelf: "లిస్టింగ్ రీన్యూ చేయమని మీకే WhatsApp రిమైండర్ పంపుకోండి.",
+        reportReason1: "ఇలాంటి ఇల్లు అస్సలు లేదు",
+        reportReason2: "తప్పు అద్దె / తప్పు సమాచారం",
+        reportReason3: "ఫోన్ నంబర్ తప్పు",
+        reportReason4: "ఫేక్ / దొంగిలించిన ఫోటోలు",
+        reportReason5: "ఇల్లు ఇప్పటికే అద్దెకు పోయింది",
+        reportReason6: "స్పామ్ లేదా డుప్లికేట్ లిస్టింగ్",
+        reportDetailsPlaceholder: "మాకు హెల్ప్ అవ్వడానికి మీరు మరిన్ని వివరాలు ఇవ్వొచ్చు (ఐచ్చికం)",
+        reportSubmit: "రిపోర్ట్ సబ్మిట్ చేయండి",
+        visitDateHeading: "డేట్ సెలెక్ట్ చేయండి",
+        visitTimeHeading: "టైమ్ స్లాట్ సెలెక్ట్ చేయండి",
+        visitName: "మీ పేరు",
+        visitPhone: "మీ ఫోన్",
+        visitSendBtn: "విజిట్ రిక్వెస్ట్ పంపండి",
+        ownerStatusAvailable: "Available",
+        ownerStatusRented: "Rented",
+        ownerStatusSold: "Sold",
+        ownerEdit: "Edit",
+        ownerDelete: "Delete",
+        ownerRenew: "Renew Listing (30 days FREE)",
+        ownerViews: "views"
+      }
+    };
+
+    let DB = null;
+    let allListings = [];
+    let filteredListings = [];
+    let currentLanguage = 'en';
+    let currentTab = 'find';
+    let currentFilters = { area: 'All Areas', bhk: 'Any', minPrice: '', maxPrice: '' };
+    let savedIds = [];
+    let joinedIds = [];
+    let currentDetailId = null;
+    let deferredPrompt = null;
+    let impressionObserver = null;
+    let sessionSeenIds = new Set();
+
+    function t(key) {
+      const set = translations[currentLanguage] || translations.en;
+      return set[key] || translations.en[key] || key;
+    }
+
+    function applyLang() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (!val) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = val;
+        } else {
+          el.textContent = val;
+        }
+      });
+      const btn = document.getElementById('langToggleBtn');
+      btn.textContent = currentLanguage === 'en' ? 'తెలుగు' : 'English';
+    }
+
+    function showToast(message, type = 'info') {
+      const wrap = document.getElementById('toastContainer');
+      const div = document.createElement('div');
+      div.className = 'toast ' + (type === 'error' ? 'toast-error' : type === 'success' ? 'toast-success' : 'toast-info');
+      div.textContent = message;
+      wrap.appendChild(div);
+      setTimeout(() => {
+        div.style.opacity = '0';
+        div.style.transform = 'translateY(6px)';
+        setTimeout(() => wrap.removeChild(div), 180);
+      }, 2600);
+    }
+
+    function timeAgo(ms) {
+      const now = Date.now();
+      const diff = now - ms;
+      if (diff < 60 * 1000) return t('timeJustNow');
+      const m = Math.round(diff / (60 * 1000));
+      if (m < 60) return t('timeMinutes').replace('{m}', m);
+      const h = Math.round(diff / (60 * 60 * 1000));
+      if (h < 48) return t('timeHours').replace('{h}', h);
+      const d = Math.round(diff / (24 * 60 * 60 * 1000));
+      return t('timeDays').replace('{d}', d);
+    }
+
+    function daysRemaining(expiry) {
+      const diff = expiry - Date.now();
+      return Math.ceil(diff / (24 * 60 * 60 * 1000));
+    }
+
+    function syncBadges() {
+      const badge = document.getElementById('savedBadge');
+      badge.textContent = savedIds.length;
+      badge.style.display = savedIds.length ? 'flex' : 'none';
+    }
+
+    function loadLocalState() {
+      try {
+        const s = localStorage.getItem('gml');
+        savedIds = s ? JSON.parse(s) : [];
+      } catch (e) {
+        savedIds = [];
+      }
+      try {
+        const j = localStorage.getItem('gm_joined');
+        joinedIds = j ? JSON.parse(j) : [];
+      } catch (e) {
+        joinedIds = [];
+      }
+      try {
+        const lang = localStorage.getItem('gm_lang');
+        if (lang === 'en' || lang === 'te') currentLanguage = lang;
+      } catch (e) {}
+      syncBadges();
+      try {
+        const seen = sessionStorage.getItem('gm_seen_ids');
+        sessionSeenIds = new Set(seen ? JSON.parse(seen) : []);
+      } catch (e) {
+        sessionSeenIds = new Set();
+      }
+    }
+
+    function saveLocalState() {
+      try {
+        localStorage.setItem('gml', JSON.stringify(savedIds));
+        localStorage.setItem('gm_joined', JSON.stringify(joinedIds));
+        localStorage.setItem('gm_lang', currentLanguage);
+      } catch (e) {}
+    }
+
+    function saveSessionSeen() {
+      try {
+        sessionStorage.setItem('gm_seen_ids', JSON.stringify(Array.from(sessionSeenIds)));
+      } catch (e) {}
+    }
+
+    function incrementViews(listingId) {
+      if (!DB || !listingId) return;
+      const listing = allListings.find(l => l.id === listingId);
+      if (listing) listing.views = (listing.views || 0) + 1;
+      try {
+        DB.ref('listings/' + listingId + '/views').transaction(function (v) {
+          return (v || 0) + 1;
+        });
+      } catch (e) {}
+      applySearch();
+      if (currentTab === 'saved') renderSaved();
+      const phone = document.getElementById('dashPhone') ? document.getElementById('dashPhone').value.trim() : '';
+      if (phone) renderMyListings(phone);
+    }
+
+    function setupImpressionTracking() {
+      if (impressionObserver) {
+        try { impressionObserver.disconnect(); } catch (e) {}
+        impressionObserver = null;
+      }
+      const container = document.getElementById('listingContainer');
+      if (!container) return;
+      const cards = Array.from(container.querySelectorAll('.gm-card[data-listing-id]'));
+      if (!cards.length || typeof IntersectionObserver === 'undefined') return;
+
+      impressionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          if (entry.intersectionRatio < 0.6) return;
+          const el = entry.target;
+          const id = el.getAttribute('data-listing-id');
+          if (!id) return;
+          if (sessionSeenIds.has(id)) return;
+          sessionSeenIds.add(id);
+          saveSessionSeen();
+          incrementViews(id);
+          try { impressionObserver.unobserve(el); } catch (e) {}
+        });
+      }, { threshold: [0.6] });
+
+      cards.forEach(function (c) {
+        const id = c.getAttribute('data-listing-id');
+        if (!id) return;
+        if (sessionSeenIds.has(id)) return;
+        impressionObserver.observe(c);
+      });
+    }
+
+    function renderAreaChips() {
+      const row = document.getElementById('areaChips');
+      row.innerHTML = '';
+      AREAS.forEach(area => {
+        const btn = document.createElement('button');
+        btn.className = 'chip' + (area === currentFilters.area ? ' chip-active' : '');
+        btn.textContent = area;
+        btn.onclick = function () {
+          currentFilters.area = area;
+          renderAreaChips();
+          applySearch();
+        };
+        row.appendChild(btn);
+      });
+      const ownerSelect = document.getElementById('ownerArea');
+      ownerSelect.innerHTML = '<option value="">' + t('ownerArea') + '</option>';
+      AREAS.slice(1).forEach(area => {
+        const opt = document.createElement('option');
+        opt.value = area;
+        opt.textContent = area;
+        ownerSelect.appendChild(opt);
+      });
+    }
+
+    function renderBhkChips() {
+      const row = document.getElementById('bhkChips');
+      row.innerHTML = '';
+      BHK_OPTIONS.forEach(bhk => {
+        const btn = document.createElement('button');
+        btn.className = 'chip' + (bhk === currentFilters.bhk ? ' chip-active' : '');
+        btn.textContent = bhk;
+        btn.onclick = function () {
+          currentFilters.bhk = bhk;
+          renderBhkChips();
+          applySearch();
+        };
+        row.appendChild(btn);
+      });
+    }
+
+    function renderActiveFilters() {
+      const wrap = document.getElementById('activeFilters');
+      wrap.innerHTML = '';
+      const parts = [];
+      if (currentFilters.area && currentFilters.area !== 'All Areas') {
+        parts.push('📍 ' + currentFilters.area);
+      }
+      if (currentFilters.bhk && currentFilters.bhk !== 'Any') {
+        parts.push('🛏 ' + currentFilters.bhk);
+      }
+      if (currentFilters.minPrice || currentFilters.maxPrice) {
+        const min = currentFilters.minPrice || '0';
+        const max = currentFilters.maxPrice || '∞';
+        parts.push('💰 ₹' + min + '–₹' + max);
+      }
+      if (!parts.length) return;
+      const pill = document.createElement('div');
+      pill.className = 'active-filters-pill';
+      pill.textContent = parts.join(' • ');
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.onclick = function () {
+        resetFilters();
+      };
+      pill.appendChild(btn);
+      wrap.appendChild(pill);
+    }
+
+    function renderListingsInto(containerId, listings, options) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      const { context, allowEmptyAlternative, showJoinedWarning } = options || {};
+      if (!listings.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        const icon = document.createElement('div');
+        icon.className = 'empty-state-icon';
+        if (context === 'saved') {
+          icon.textContent = '🤍';
+        } else if (context === 'filters') {
+          icon.textContent = '🔍';
+        } else {
+          icon.textContent = '🏠';
+        }
+        empty.appendChild(icon);
+        const h = document.createElement('h3');
+        if (context === 'saved') {
+          h.textContent = t('emptyNoSavedTitle');
+        } else if (context === 'filters') {
+          h.textContent = t('emptyNoFiltersTitle');
+        } else {
+          h.textContent = t('emptyNoListingsTitle');
+        }
+        empty.appendChild(h);
+        const p = document.createElement('p');
+        if (context === 'saved') {
+          p.textContent = t('emptyNoSavedText');
+        } else if (context === 'filters') {
+          p.textContent = t('emptyNoFiltersText');
+        } else {
+          p.textContent = t('emptyNoListingsText');
+        }
+        empty.appendChild(p);
+        if (allowEmptyAlternative) {
+          const altBtn = document.createElement('button');
+          altBtn.className = 'btn btn-secondary';
+          if (context === 'filters') {
+            altBtn.textContent = t('resetBtn');
+            altBtn.onclick = function () {
+              resetFilters();
+            };
+          } else if (context === 'main') {
+            altBtn.textContent = t('publishBtn');
+            altBtn.onclick = function () {
+              switchTab('list');
+            };
+          }
+          empty.appendChild(altBtn);
+        }
+        container.appendChild(empty);
+        return;
+      }
+      listings.forEach(listing => {
+        const card = document.createElement('div');
+        card.className = 'card gm-card';
+        card.setAttribute('data-listing-id', listing.id);
+        card.onclick = function (e) {
+          if (e.target.closest('button')) return;
+          openDetail(listing.id);
+        };
+        const photo = document.createElement('div');
+        photo.className = 'card-photo';
+        if (listing.photos && listing.photos.length) {
+          const img = document.createElement('img');
+          img.src = listing.photos[0];
+          img.alt = listing.title || 'House';
+          photo.appendChild(img);
+        } else {
+          photo.textContent = listing.emoji || '🏠';
+        }
+
+        const badgeStrip = document.createElement('div');
+        badgeStrip.className = 'badge-strip';
+        const joined = joinedIds.includes(listing.id);
+        if (joined) {
+          const j = document.createElement('div');
+          j.className = 'joined-banner';
+          j.innerHTML = '⚠️ <span>' + t('joinedWarning') + '</span>';
+          photo.appendChild(j);
+        }
+
+        if (listing.featured) {
+          const b = document.createElement('div');
+          b.className = 'badge badge-featured';
+          b.textContent = '💎 Featured';
+          badgeStrip.appendChild(b);
+        }
+        if (listing.verified) {
+          const b = document.createElement('div');
+          b.className = 'badge badge-verified';
+          b.textContent = '✓ Verified';
+          badgeStrip.appendChild(b);
+        }
+        if (badgeStrip.children.length) {
+          photo.appendChild(badgeStrip);
+        }
+
+        const typeBadge = document.createElement('div');
+        typeBadge.className = 'badge-type';
+        typeBadge.textContent = listing.type === 'Sale' ? 'For Sale' : 'For Rent';
+        photo.appendChild(typeBadge);
+
+        if (listing.photos && listing.photos.length > 1) {
+          const count = document.createElement('div');
+          count.className = 'badge-photos';
+          count.textContent = '📷 ' + listing.photos.length;
+          photo.appendChild(count);
+        }
+
+        if (listing.status === 'rented' || listing.status === 'sold') {
+          const overlay = document.createElement('div');
+          overlay.className = 'status-overlay ' + (listing.status === 'rented' ? 'rented' : 'sold');
+          const span = document.createElement('span');
+          span.textContent = listing.status === 'rented' ? 'RENTED' : 'SOLD';
+          overlay.appendChild(span);
+          photo.appendChild(overlay);
+        }
+
+        const actions = document.createElement('div');
+        actions.className = 'card-photo-actions';
+        const shareBtn = document.createElement('button');
+        shareBtn.className = 'photo-icon-btn';
+        shareBtn.textContent = '📤';
+        shareBtn.onclick = function (e) {
+          e.stopPropagation();
+          shareListing(listing);
+        };
+        const heart = document.createElement('button');
+        heart.className = 'photo-icon-btn' + (savedIds.includes(listing.id) ? ' saved' : '');
+        heart.textContent = savedIds.includes(listing.id) ? '❤️' : '♡';
+        heart.onclick = function (e) {
+          e.stopPropagation();
+          toggleSave(listing.id);
+        };
+        actions.appendChild(shareBtn);
+        actions.appendChild(heart);
+        photo.appendChild(actions);
+
+        card.appendChild(photo);
+
+        if (context === 'main' && showJoinedWarning) {
+          const warn = document.createElement('div');
+          warn.className = 'warning-joined';
+          warn.innerHTML = '<span>⚠️</span><span>If you have joined this house, click the \'I Joined\' button to notify owner</span>';
+          card.appendChild(warn);
+        }
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        const header = document.createElement('div');
+        header.className = 'card-header-row';
+        const left = document.createElement('div');
+        const title = document.createElement('div');
+        title.className = 'card-title';
+        title.textContent = listing.title || 'House in ' + (listing.location || '');
+        const loc = document.createElement('div');
+        loc.className = 'card-location';
+        loc.innerHTML = '📍 ' + (listing.location || 'Naidupeta');
+        const price = document.createElement('div');
+        price.className = 'price-line';
+        price.textContent = '₹' + (listing.price || 0).toLocaleString() + (listing.type === 'Rent' ? '/month' : '');
+        left.appendChild(title);
+        left.appendChild(loc);
+        left.appendChild(price);
+        header.appendChild(left);
+        const right = document.createElement('div');
+        right.style.textAlign = 'right';
+        const ratingSpan = document.createElement('div');
+        ratingSpan.className = 'rating-stars';
+        if (listing.reviews && listing.reviews.length) {
+          const avg = listing.reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / listing.reviews.length;
+          ratingSpan.textContent = '⭐ ' + avg.toFixed(1) + ' (' + listing.reviews.length + ')';
+        } else {
+          ratingSpan.textContent = '⭐ ' + t('noReviews');
+        }
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'time-ago';
+        timeSpan.textContent = timeAgo(listing.timestamp || Date.now());
+        right.appendChild(ratingSpan);
+        right.appendChild(timeSpan);
+        header.appendChild(right);
+        body.appendChild(header);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta-row';
+        const bhk = document.createElement('div');
+        bhk.className = 'meta-item';
+        bhk.textContent = '🛏 ' + (listing.bhk || 'Any');
+        const sqft = document.createElement('div');
+        sqft.className = 'meta-item';
+        sqft.textContent = '📐 ' + (listing.area || '--') + ' sqft';
+        const furn = document.createElement('div');
+        furn.className = 'meta-item';
+        furn.textContent = '🛋 ' + (listing.furnished || 'Unfurnished');
+        const park = document.createElement('div');
+        park.className = 'meta-item';
+        park.textContent = (listing.parking ? '🚗 Parking' : '🚫 No Parking');
+        meta.appendChild(bhk);
+        meta.appendChild(sqft);
+        meta.appendChild(furn);
+        meta.appendChild(park);
+        body.appendChild(meta);
+
+        if (listing.tags && listing.tags.length) {
+          const tagRow = document.createElement('div');
+          tagRow.className = 'tag-row';
+          listing.tags.slice(0, 4).forEach(tag => {
+            const pill = document.createElement('span');
+            pill.className = 'tag-pill';
+            pill.textContent = tag;
+            tagRow.appendChild(pill);
+          });
+          body.appendChild(tagRow);
+        }
+        const footer = document.createElement('div');
+        footer.className = 'card-footer';
+        const statusSpan = document.createElement('span');
+        if (listing.status === 'rented') {
+          statusSpan.textContent = t('statusRented');
+          statusSpan.style.color = '#b91c1c';
+        } else if (listing.status === 'sold') {
+          statusSpan.textContent = t('statusSold');
+          statusSpan.style.color = '#6d28d9';
+        } else {
+          statusSpan.textContent = t('statusAvailable');
+          statusSpan.style.color = '#065f46';
+        }
+        footer.appendChild(statusSpan);
+        const views = document.createElement('span');
+        views.textContent = '👁 ' + (listing.views || 0);
+        footer.appendChild(views);
+        body.appendChild(footer);
+
+        card.appendChild(body);
+        container.appendChild(card);
+      });
+    }
+
+    function applySearch() {
+      const min = parseInt(currentFilters.minPrice, 10);
+      const max = parseInt(currentFilters.maxPrice, 10);
+      if (!isNaN(min) && !isNaN(max) && min > max) {
+        showToast(t('toastMinMax'), 'error');
+        return;
+      }
+      let list = allListings.filter(l => !l._expired);
+      if (currentFilters.area && currentFilters.area !== 'All Areas') {
+        list = list.filter(l => l.location === currentFilters.area);
+      }
+      if (currentFilters.bhk && currentFilters.bhk !== 'Any') {
+        list = list.filter(l => (l.bhk || '') === currentFilters.bhk);
+      }
+      if (!isNaN(min)) {
+        list = list.filter(l => (l.price || 0) >= min);
+      }
+      if (!isNaN(max)) {
+        list = list.filter(l => (l.price || 0) <= max);
+      }
+
+      const sort = document.getElementById('sortSelect').value;
+      list.sort((a, b) => {
+        if (sort === 'newest') return (b.timestamp || 0) - (a.timestamp || 0);
+        if (sort === 'priceLow') return (a.price || 0) - (b.price || 0);
+        if (sort === 'priceHigh') return (b.price || 0) - (a.price || 0);
+        if (sort === 'topRated') {
+          const aAvg = a.reviews && a.reviews.length ? a.reviews.reduce((s, r) => s + (r.rating || 0), 0) / a.reviews.length : 0;
+          const bAvg = b.reviews && b.reviews.length ? b.reviews.reduce((s, r) => s + (r.rating || 0), 0) / b.reviews.length : 0;
+          return bAvg - aAvg;
+        }
+        return 0;
+      });
+      filteredListings = list;
+      document.getElementById('countFound').textContent = list.length;
+      renderActiveFilters();
+      renderListingsInto('listingContainer', list, { context: 'main', allowEmptyAlternative: true, showJoinedWarning: true });
+      setupImpressionTracking();
+    }
+
+    function resetFilters() {
+      currentFilters = { area: 'All Areas', bhk: 'Any', minPrice: '', maxPrice: '' };
+      document.getElementById('minPrice').value = '';
+      document.getElementById('maxPrice').value = '';
+      renderAreaChips();
+      renderBhkChips();
+      renderActiveFilters();
+      applySearch();
+    }
+
+    function openDetail(id) {
+      currentDetailId = id;
+      const listing = allListings.find(l => l.id === id);
+      if (!listing) return;
+      const overlay = document.getElementById('detailOverlay');
+      const heart = document.getElementById('detailHeartBtn');
+      heart.className = 'photo-icon-btn' + (savedIds.includes(id) ? ' saved' : '');
+      heart.textContent = savedIds.includes(id) ? '❤️' : '♡';
+      const content = document.getElementById('detailContent');
+      content.innerHTML = '';
+
+      const gallery = document.createElement('div');
+      gallery.className = 'card-photo';
+      gallery.style.height = '220px';
+      if (listing.photos && listing.photos.length) {
+        const img = document.createElement('img');
+        img.src = listing.photos[0];
+        img.alt = listing.title || 'House';
+        gallery.appendChild(img);
+      } else {
+        gallery.textContent = listing.emoji || '🏠';
+      }
+      content.appendChild(gallery);
+
+      const statusRow = document.createElement('div');
+      statusRow.style.display = 'flex';
+      statusRow.style.justifyContent = 'space-between';
+      statusRow.style.alignItems = 'center';
+      statusRow.style.marginTop = '6px';
+      const status = document.createElement('div');
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      if (listing.status === 'rented') {
+        badge.style.background = '#fee2e2';
+        badge.style.borderColor = '#fecaca';
+        badge.textContent = '🔴 ' + t('statusRented');
+      } else if (listing.status === 'sold') {
+        badge.style.background = '#e0e7ff';
+        badge.style.borderColor = '#c7d2fe';
+        badge.textContent = '🟣 ' + t('statusSold');
+      } else {
+        badge.style.background = '#dcfce7';
+        badge.style.borderColor = '#bbf7d0';
+        badge.textContent = '🟢 ' + t('statusAvailable');
+      }
+      status.appendChild(badge);
+      const rt = document.createElement('div');
+      rt.style.fontSize = '11px';
+      rt.style.color = '#6b7280';
+      rt.textContent = '👁 ' + (listing.views || 0) + ' • ' + timeAgo(listing.timestamp || Date.now());
+      statusRow.appendChild(status);
+      statusRow.appendChild(rt);
+      content.appendChild(statusRow);
+
+      if (DB && listing && listing.id) {
+        listing.views = (listing.views || 0) + 1;
+        rt.textContent = '👁 ' + (listing.views || 0) + ' • ' + timeAgo(listing.timestamp || Date.now());
+        applySearch();
+        try {
+          DB.ref('listings/' + listing.id + '/views').transaction(function (v) {
+            return (v || 0) + 1;
+          });
+        } catch (e) {}
+      }
+
+      const joinWarn = document.createElement('div');
+      joinWarn.className = 'warning-joined';
+      joinWarn.style.marginTop = '6px';
+      joinWarn.innerHTML = '<span>⚠️</span><span>If you have joined this house, click the \'I Joined\' button to notify owner</span>';
+      content.appendChild(joinWarn);
+
+      const title = document.createElement('h2');
+      title.style.fontSize = '18px';
+      title.style.margin = '6px 0 4px';
+      title.textContent = listing.title || 'House';
+      content.appendChild(title);
+
+      const price = document.createElement('div');
+      price.className = 'price-line';
+      price.style.fontSize = '18px';
+      price.textContent = '₹' + (listing.price || 0).toLocaleString() + (listing.type === 'Rent' ? '/month' : '');
+      content.appendChild(price);
+
+      const loc = document.createElement('div');
+      loc.className = 'card-location';
+      loc.style.marginTop = '2px';
+      loc.textContent = '📍 ' + (listing.location || 'Naidupeta');
+      content.appendChild(loc);
+
+      const ratingWrap = document.createElement('div');
+      ratingWrap.style.marginTop = '4px';
+      ratingWrap.className = 'rating-stars';
+      if (listing.reviews && listing.reviews.length) {
+        const avg = listing.reviews.reduce((s, r) => s + (r.rating || 0), 0) / listing.reviews.length;
+        ratingWrap.textContent = '⭐ ' + avg.toFixed(1) + ' (' + listing.reviews.length + ')';
+      } else {
+        ratingWrap.textContent = '⭐ ' + t('noReviews');
+      }
+      content.appendChild(ratingWrap);
+
+      const grid = document.createElement('div');
+      grid.style.display = 'grid';
+      grid.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
+      grid.style.gap = '6px';
+      grid.style.marginTop = '8px';
+      const fields = [
+        ['Type', listing.type || 'Rent'],
+        ['Area sqft', listing.area || '--'],
+        ['Furnished', listing.furnished || 'Unfurnished'],
+        ['Water Supply', listing.water || '24/7'],
+        ['Parking', listing.parking ? 'Yes' : 'No'],
+        ['Deposit', listing.deposit ? '₹' + listing.deposit.toLocaleString() : '—']
+      ];
+      fields.forEach(([label, val]) => {
+        const box = document.createElement('div');
+        box.style.borderRadius = '10px';
+        box.style.border = '1px solid var(--border)';
+        box.style.background = '#fff';
+        box.style.padding = '6px 8px';
+        box.style.fontSize = '11px';
+        const l = document.createElement('div');
+        l.style.color = '#6b7280';
+        l.textContent = label;
+        const v = document.createElement('div');
+        v.style.color = '#111827';
+        v.style.fontWeight = '500';
+        v.textContent = val;
+        box.appendChild(l);
+        box.appendChild(v);
+        grid.appendChild(box);
+      });
+      content.appendChild(grid);
+
+      if (listing.conditions) {
+        const cond = document.createElement('div');
+        cond.style.marginTop = '8px';
+        cond.style.borderRadius = '12px';
+        cond.style.padding = '6px 8px';
+        cond.style.background = '#fffbeb';
+        cond.style.border = '1px solid #facc15';
+        cond.style.fontSize = '12px';
+        cond.innerHTML = '<strong>Owner Conditions:</strong> ' + listing.conditions;
+        content.appendChild(cond);
+      }
+
+      if (listing.tags && listing.tags.length) {
+        const tagTitle = document.createElement('div');
+        tagTitle.style.marginTop = '8px';
+        tagTitle.style.fontSize = '12px';
+        tagTitle.style.fontWeight = '600';
+        tagTitle.textContent = 'Tags';
+        const tagRow = document.createElement('div');
+        tagRow.className = 'tag-row';
+        listing.tags.forEach(tag => {
+          const pill = document.createElement('span');
+          pill.className = 'tag-pill';
+          pill.textContent = tag;
+          tagRow.appendChild(pill);
+        });
+        content.appendChild(tagTitle);
+        content.appendChild(tagRow);
+      }
+
+      const contactTitle = document.createElement('h3');
+      contactTitle.style.marginTop = '10px';
+      contactTitle.style.fontSize = '14px';
+      contactTitle.textContent = t('contactHeading');
+      content.appendChild(contactTitle);
+
+      const cCard = document.createElement('div');
+      cCard.className = 'mini-card';
+      const thumb = document.createElement('div');
+      thumb.className = 'mini-thumb';
+      thumb.textContent = '👤';
+      const body = document.createElement('div');
+      body.className = 'mini-body';
+      body.innerHTML = '<div style="font-weight:600;">' + (listing.ownerName || 'Owner') + '</div><div style="font-size:11px;color:#6b7280;">' + (listing.phone ? '+91 ' + listing.phone : '') + '</div>';
+      cCard.appendChild(thumb);
+      cCard.appendChild(body);
+      content.appendChild(cCard);
+
+      const btnRow = document.createElement('div');
+      btnRow.style.display = 'flex';
+      btnRow.style.gap = '6px';
+      btnRow.style.marginTop = '8px';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'btn btn-secondary';
+      showBtn.style.flex = '1';
+      showBtn.textContent = t('showContact');
+      showBtn.onclick = function () {
+        if (!listing.phone) return;
+        alert('+91 ' + listing.phone);
+      };
+      const callBtn = document.createElement('button');
+      callBtn.className = 'btn btn-primary';
+      callBtn.style.flex = '1';
+      callBtn.textContent = t('callOwner');
+      callBtn.onclick = function () {
+        if (!listing.phone) return;
+        window.location.href = 'tel:+91' + listing.phone;
+      };
+      btnRow.appendChild(showBtn);
+      btnRow.appendChild(callBtn);
+      content.appendChild(btnRow);
+
+      const waRow = document.createElement('div');
+      waRow.style.display = 'flex';
+      waRow.style.flexWrap = 'wrap';
+      waRow.style.gap = '6px';
+      waRow.style.marginTop = '8px';
+      const waBtn = document.createElement('button');
+      waBtn.className = 'btn btn-secondary';
+      waBtn.style.flex = '1 1 45%';
+      waBtn.textContent = t('waOwner');
+      waBtn.onclick = function () {
+        sendWhatsApp(listing.phone, 'Is this house available?');
+      };
+      const visitBtn = document.createElement('button');
+      visitBtn.className = 'btn btn-ghost';
+      visitBtn.style.flex = '1 1 45%';
+      visitBtn.textContent = t('scheduleVisit');
+      visitBtn.onclick = function () {
+        openVisitModal(listing);
+      };
+      const shareBtn = document.createElement('button');
+      shareBtn.className = 'btn btn-ghost';
+      shareBtn.style.flex = '1 1 100%';
+      shareBtn.textContent = t('shareListing');
+      shareBtn.onclick = function () {
+        shareListing(listing);
+      };
+      waRow.appendChild(waBtn);
+      waRow.appendChild(visitBtn);
+      waRow.appendChild(shareBtn);
+      content.appendChild(waRow);
+
+      const quickRow = document.createElement('div');
+      quickRow.style.display = 'flex';
+      quickRow.style.flexWrap = 'wrap';
+      quickRow.style.gap = '6px';
+      quickRow.style.marginTop = '8px';
+      const msgs = [
+        'Is this house available?',
+        'What is the final rent?',
+        'Can I visit tomorrow?',
+        'Is parking available?'
+      ];
+      msgs.forEach(m => {
+        const b = document.createElement('button');
+        b.className = 'pill';
+        b.style.fontSize = '11px';
+        b.textContent = m;
+        b.onclick = function () {
+          sendWhatsApp(listing.phone, m);
+        };
+        quickRow.appendChild(b);
+      });
+      content.appendChild(quickRow);
+
+      const joinedRow = document.createElement('div');
+      joinedRow.style.display = 'flex';
+      joinedRow.style.gap = '6px';
+      joinedRow.style.marginTop = '8px';
+      const joinedBtn = document.createElement('button');
+      joinedBtn.className = 'btn btn-primary';
+      joinedBtn.style.flex = '1';
+      joinedBtn.textContent = t('joinedBtn');
+      joinedBtn.onclick = function () {
+        handleJoined(listing);
+      };
+      const reportBtn = document.createElement('button');
+      reportBtn.className = 'btn btn-ghost';
+      reportBtn.style.flex = '1';
+      reportBtn.textContent = t('reportBtn');
+      reportBtn.onclick = function () {
+        openReport(listing);
+      };
+      joinedRow.appendChild(joinedBtn);
+      joinedRow.appendChild(reportBtn);
+      content.appendChild(joinedRow);
+
+      const revTitle = document.createElement('h3');
+      revTitle.style.marginTop = '10px';
+      revTitle.style.fontSize = '14px';
+      revTitle.textContent = t('reviewHeading');
+      content.appendChild(revTitle);
+
+      const listWrap = document.createElement('div');
+      listWrap.className = 'review-list';
+      if (listing.reviews && listing.reviews.length) {
+        listing.reviews.forEach(r => {
+          const item = document.createElement('div');
+          item.className = 'review-item';
+          const head = document.createElement('div');
+          head.className = 'review-item-header';
+          head.innerHTML = '<span>' + (r.name || 'User') + '</span><span style="color:#f59e0b;">⭐ ' + (r.rating || 0) + '</span>';
+          const txt = document.createElement('div');
+          txt.className = 'review-text';
+          txt.textContent = r.text || '';
+          const date = document.createElement('div');
+          date.style.fontSize = '10px';
+          date.style.color = '#6b7280';
+          date.textContent = r.date || '';
+          item.appendChild(head);
+          item.appendChild(txt);
+          item.appendChild(date);
+          listWrap.appendChild(item);
+        });
+      } else {
+        const no = document.createElement('div');
+        no.style.fontSize = '11px';
+        no.style.color = '#6b7280';
+        no.textContent = t('noReviews');
+        listWrap.appendChild(no);
+      }
+      content.appendChild(listWrap);
+
+      const reviewForm = document.createElement('div');
+      reviewForm.style.marginTop = '8px';
+      const bt = document.createElement('div');
+      bt.style.fontSize = '13px';
+      bt.style.fontWeight = '600';
+      bt.textContent = t('writeReview');
+      reviewForm.appendChild(bt);
+      const stars = document.createElement('div');
+      stars.className = 'stars-input';
+      let selected = 0;
+      for (let i = 1; i <= 5; i++) {
+        const b = document.createElement('button');
+        b.textContent = '☆';
+        b.onclick = function () {
+          selected = i;
+          stars.querySelectorAll('button').forEach((btn, idx) => {
+            btn.textContent = idx < i ? '⭐' : '☆';
+          });
+        };
+        stars.appendChild(b);
+      }
+      reviewForm.appendChild(stars);
+      const nameField = document.createElement('div');
+      nameField.className = 'field';
+      const nameInput = document.createElement('input');
+      nameInput.placeholder = t('reviewName');
+      nameField.appendChild(nameInput);
+      const textField = document.createElement('div');
+      textField.className = 'field';
+      const textArea = document.createElement('textarea');
+      textArea.placeholder = t('reviewText');
+      textField.appendChild(textArea);
+      const subBtn = document.createElement('button');
+      subBtn.className = 'btn btn-secondary';
+      subBtn.style.marginTop = '6px';
+      subBtn.textContent = t('submitReview');
+      subBtn.onclick = function () {
+        if (!selected || !nameInput.value.trim() || !textArea.value.trim()) {
+          showToast(t('toastReviewFields'), 'error');
+          return;
+        }
+        const review = {
+          name: nameInput.value.trim(),
+          text: textArea.value.trim(),
+          rating: selected,
+          date: new Date().toLocaleDateString()
+        };
+        const ref = DB.ref('listings/' + listing.id + '/reviews');
+        const arr = listing.reviews || [];
+        arr.push(review);
+        ref.set(arr).then(() => {
+          listing.reviews = arr;
+          openDetail(listing.id);
+          applySearch();
+          showToast('Review submitted', 'success');
+        });
+      };
+      reviewForm.appendChild(nameField);
+      reviewForm.appendChild(textField);
+      reviewForm.appendChild(subBtn);
+      content.appendChild(reviewForm);
+
+      const similar = document.createElement('div');
+      similar.style.marginTop = '10px';
+      const st = document.createElement('div');
+      st.style.fontSize = '13px';
+      st.style.fontWeight = '600';
+      st.textContent = t('similarHeading');
+      similar.appendChild(st);
+      const row = document.createElement('div');
+      row.className = 'similar-row';
+      const same = allListings.filter(l => !l._expired && l.id !== listing.id && (l.location === listing.location || l.bhk === listing.bhk)).slice(0, 5);
+      same.forEach(s => {
+        const c = document.createElement('div');
+        c.className = 'similar-card';
+        c.onclick = function () {
+          openDetail(s.id);
+        };
+        c.innerHTML = '<div style="font-size:20px;margin-bottom:4px;">' + (s.emoji || '🏠') + '</div><div style="font-weight:600;margin-bottom:2px;">' + (s.title || '') + '</div><div style="font-size:11px;color:#6b7280;">📍 ' + (s.location || '') + '</div><div style="font-size:12px;color:#f59e0b;margin-top:2px;">₹' + (s.price || 0).toLocaleString() + '</div>';
+        row.appendChild(c);
+      });
+      if (!same.length) {
+        const none = document.createElement('div');
+        none.style.fontSize = '11px';
+        none.style.color = '#6b7280';
+        none.textContent = 'More homes appear here as owners list in this area.';
+        row.appendChild(none);
+      }
+      similar.appendChild(row);
+      content.appendChild(similar);
+
+      overlay.classList.add('active');
+    }
+
+    function closeDetail() {
+      document.getElementById('detailOverlay').classList.remove('active');
+      currentDetailId = null;
+    }
+
+    function openVisitModal(listing) {
+      const overlay = document.getElementById('reportOverlay');
+      const box = document.getElementById('reportContent');
+      overlay.classList.add('active');
+      box.innerHTML = '';
+      const title = document.createElement('div');
+      title.className = 'sheet-title';
+      title.textContent = t('scheduleVisit');
+      box.appendChild(title);
+
+      const dateHeading = document.createElement('div');
+      dateHeading.style.fontSize = '12px';
+      dateHeading.style.marginTop = '6px';
+      dateHeading.textContent = t('visitDateHeading');
+      box.appendChild(dateHeading);
+
+      const dateRow = document.createElement('div');
+      dateRow.className = 'date-row';
+      const dates = [];
+      const now = new Date();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+        dates.push(d);
+      }
+      let selectedDate = null;
+      dates.forEach(d => {
+        const chip = document.createElement('div');
+        chip.className = 'date-chip';
+        chip.innerHTML = d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) + '<span>' + d.toLocaleDateString() + '</span>';
+        chip.onclick = function () {
+          selectedDate = d;
+          dateRow.querySelectorAll('.date-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+        };
+        dateRow.appendChild(chip);
+      });
+      box.appendChild(dateRow);
+
+      const timeHeading = document.createElement('div');
+      timeHeading.style.fontSize = '12px';
+      timeHeading.style.marginTop = '4px';
+      timeHeading.textContent = t('visitTimeHeading');
+      box.appendChild(timeHeading);
+
+      const times = [
+        'Morning 9AM–11AM',
+        'Afternoon 12PM–2PM',
+        'Evening 4PM–6PM',
+        'Any Time'
+      ];
+      let selectedSlot = null;
+      const tGrid = document.createElement('div');
+      tGrid.className = 'visit-grid';
+      times.forEach(label => {
+        const tile = document.createElement('div');
+        tile.className = 'visit-tile';
+        tile.textContent = label;
+        tile.onclick = function () {
+          selectedSlot = label;
+          tGrid.querySelectorAll('.visit-tile').forEach(c => c.classList.remove('active'));
+          tile.classList.add('active');
+        };
+        tGrid.appendChild(tile);
+      });
+      box.appendChild(tGrid);
+
+      const nameF = document.createElement('div');
+      nameF.className = 'field';
+      const nInput = document.createElement('input');
+      nInput.placeholder = t('visitName');
+      nameF.appendChild(nInput);
+      const phoneF = document.createElement('div');
+      phoneF.className = 'field';
+      const pInput = document.createElement('input');
+      pInput.placeholder = t('visitPhone');
+      pInput.type = 'tel';
+      pInput.maxLength = 10;
+      phoneF.appendChild(pInput);
+      box.appendChild(nameF);
+      box.appendChild(phoneF);
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary';
+      btn.style.marginTop = '8px';
+      btn.textContent = t('visitSendBtn');
+      btn.onclick = function () {
+        const name = nInput.value.trim();
+        const phone = pInput.value.trim();
+        if (!selectedDate || !selectedSlot || !name || !/^\d{10}$/.test(phone)) {
+          showToast(t('toastVisitFields'), 'error');
+          return;
+        }
+        const msg = 'Namaste, I would like to schedule a visit for "' + (listing.title || '') + '" on ' + selectedDate.toDateString() + ' during ' + selectedSlot + '.\nName: ' + name + '\nPhone: +91' + phone;
+        sendWhatsApp(listing.phone, msg);
+        closeReport();
+      };
+      box.appendChild(btn);
+    }
+
+    function openReport(listing) {
+      const overlay = document.getElementById('reportOverlay');
+      const box = document.getElementById('reportContent');
+      overlay.classList.add('active');
+      box.innerHTML = '';
+      const reasons = [
+        t('reportReason1'),
+        t('reportReason2'),
+        t('reportReason3'),
+        t('reportReason4'),
+        t('reportReason5'),
+        t('reportReason6')
+      ];
+      const list = document.createElement('div');
+      list.style.display = 'flex';
+      list.style.flexDirection = 'column';
+      list.style.gap = '4px';
+      let selected = '';
+      reasons.forEach(r => {
+        const label = document.createElement('label');
+        label.className = 'toggle-pill';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'reportReason';
+        input.onclick = function () {
+          selected = r;
+        };
+        label.appendChild(input);
+        const span = document.createElement('span');
+        span.textContent = r;
+        label.appendChild(span);
+        list.appendChild(label);
+      });
+      box.appendChild(list);
+      const field = document.createElement('div');
+      field.className = 'field';
+      const ta = document.createElement('textarea');
+      ta.placeholder = t('reportDetailsPlaceholder');
+      field.appendChild(ta);
+      box.appendChild(field);
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary';
+      btn.style.marginTop = '8px';
+      btn.textContent = t('reportSubmit');
+      btn.onclick = function () {
+        if (!selected) {
+          showToast(t('toastReportReason'), 'error');
+          return;
+        }
+        const data = {
+          listingId: listing.id,
+          listingTitle: listing.title || '',
+          listingLocation: listing.location || '',
+          listingPrice: listing.price || 0,
+          ownerName: listing.ownerName || '',
+          ownerPhone: listing.phone || '',
+          reason: selected,
+          details: ta.value.trim(),
+          timestamp: Date.now(),
+          reportedAt: new Date().toISOString()
+        };
+        DB.ref('reports').push(data).then(() => {
+          showToast('Report submitted. Thank you!', 'success');
+          closeReport();
+        });
+      };
+      box.appendChild(btn);
+    }
+
+    function closeReport() {
+      document.getElementById('reportOverlay').classList.remove('active');
+    }
+
+    function sendWhatsApp(phone, message) {
+      if (!phone) return;
+      const url = 'https://wa.me/91' + phone + '?text=' + encodeURIComponent(message);
+      window.open(url, '_blank');
+    }
+
+    function shareListing(listing) {
+      const text = 'Check this house in Naidupeta "' + (listing.title || '') + '" for ₹' + (listing.price || 0).toLocaleString() + ' at ' + (listing.location || '') + '. View on GharMilo: findyourhomenow.netlify.app';
+      const link = 'https://findyourhomenow.netlify.app';
+      if (navigator.share) {
+        navigator.share({
+          title: 'GharMilo – ' + (listing.title || ''),
+          text,
+          url: link
+        }).catch(function(){});
+      } else {
+        const msg = text + ' ' + link;
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+      }
+    }
+
+    function toggleSave(id) {
+      const idx = savedIds.indexOf(id);
+      if (idx === -1) {
+        savedIds.push(id);
+        showToast(t('toastSaved'), 'success');
+      } else {
+        savedIds.splice(idx, 1);
+        showToast(t('toastUnsaved'), 'info');
+      }
+      saveLocalState();
+      syncBadges();
+      applySearch();
+      renderSaved();
+    }
+
+    function toggleSaveFromDetail() {
+      if (!currentDetailId) return;
+      toggleSave(currentDetailId);
+      const heart = document.getElementById('detailHeartBtn');
+      heart.className = 'photo-icon-btn' + (savedIds.includes(currentDetailId) ? ' saved' : '');
+      heart.textContent = savedIds.includes(currentDetailId) ? '❤️' : '♡';
+    }
+
+    function renderSaved() {
+      const list = allListings.filter(l => savedIds.includes(l.id));
+      renderListingsInto('savedListContainer', list, { context: 'saved', allowEmptyAlternative: false });
+    }
+
+    function renderMyListings(phone) {
+      const list = allListings.filter(l => l.phone === phone);
+      const container = document.getElementById('myListingsContainer');
+      container.innerHTML = '';
+      if (!list.length) {
+        renderListingsInto('myListingsContainer', [], { context: 'main', allowEmptyAlternative: false });
+        return;
+      }
+      list.forEach(listing => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '8px';
+        row.style.padding = '8px 9px';
+        const thumb = document.createElement('div');
+        thumb.className = 'mini-thumb';
+        thumb.style.width = '54px';
+        thumb.style.height = '54px';
+        if (listing.photos && listing.photos[0]) {
+          thumb.innerHTML = '';
+          const img = document.createElement('img');
+          img.src = listing.photos[0];
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          img.style.borderRadius = '12px';
+          thumb.appendChild(img);
+        } else {
+          thumb.textContent = listing.emoji || '🏠';
+        }
+        const body = document.createElement('div');
+        body.style.flex = '1';
+        body.style.fontSize = '12px';
+        const title = document.createElement('div');
+        title.style.fontWeight = '600';
+        title.textContent = listing.title || '';
+        const loc = document.createElement('div');
+        loc.style.fontSize = '11px';
+        loc.style.color = '#6b7280';
+        loc.textContent = '📍 ' + (listing.location || '');
+        const price = document.createElement('div');
+        price.style.fontSize = '13px';
+        price.style.color = '#f59e0b';
+        price.textContent = '₹' + (listing.price || 0).toLocaleString();
+        const views = document.createElement('div');
+        views.style.fontSize = '11px';
+        views.style.color = '#6b7280';
+        views.textContent = '👁 ' + (listing.views || 0) + ' ' + t('ownerViews');
+        body.appendChild(title);
+        body.appendChild(loc);
+        body.appendChild(price);
+        body.appendChild(views);
+        const right = document.createElement('div');
+        right.style.display = 'flex';
+        right.style.flexDirection = 'column';
+        right.style.gap = '4px';
+        right.style.alignItems = 'flex-end';
+        const status = document.createElement('div');
+        status.className = 'badge';
+        if (listing.status === 'rented') {
+          status.style.background = '#fee2e2';
+          status.style.borderColor = '#fecaca';
+          status.textContent = '🔴 ' + t('ownerStatusRented');
+        } else if (listing.status === 'sold') {
+          status.style.background = '#e0e7ff';
+          status.style.borderColor = '#c7d2fe';
+          status.textContent = '🟣 ' + t('ownerStatusSold');
+        } else {
+          status.style.background = '#dcfce7';
+          status.style.borderColor = '#bbf7d0';
+          status.textContent = '🟢 ' + t('ownerStatusAvailable');
+        }
+        right.appendChild(status);
+
+        if (listing.expiryDate && listing.expiryDate > YEAR2020) {
+          const d = daysRemaining(listing.expiryDate);
+          const box = document.createElement('div');
+          box.style.borderRadius = '10px';
+          box.style.padding = '4px 8px';
+          box.style.fontSize = '10px';
+          if (d > 7) {
+            box.style.background = '#ecfdf5';
+            box.style.border = '1px solid #bbf7d0';
+            box.textContent = '✅ ' + t('expiryActive').replace('{d}', d);
+          } else if (d >= 4) {
+            box.style.background = '#fef9c3';
+            box.style.border = '1px solid #facc15';
+            box.textContent = '📅 ' + t('expirySoon').replace('{d}', d);
+          } else if (d >= 1) {
+            box.style.background = '#fee2e2';
+            box.style.border = '1px solid #fca5a5';
+            box.textContent = '⚠️ ' + t('expiryUrgent').replace('{d}', d);
+            const waBtn = document.createElement('button');
+            waBtn.className = 'pill';
+            waBtn.style.marginTop = '4px';
+            waBtn.style.fontSize = '10px';
+            waBtn.textContent = '📱 ' + t('expSoonSelf');
+            waBtn.onclick = function () {
+              sendExpiryWhatsApp(listing);
+            };
+            right.appendChild(waBtn);
+          } else {
+            box.style.background = '#111827';
+            box.style.border = '1px solid #374151';
+            box.style.color = '#e5e7eb';
+            box.textContent = '⚫ ' + t('expiryExpired');
+          }
+          right.appendChild(box);
+        }
+        const btnRow = document.createElement('div');
+        btnRow.style.display = 'flex';
+        btnRow.style.flexWrap = 'wrap';
+        btnRow.style.gap = '4px';
+        const edit = document.createElement('button');
+        edit.className = 'pill';
+        edit.style.fontSize = '10px';
+        edit.textContent = '✏️ ' + t('ownerEdit');
+        edit.onclick = function () {
+          document.getElementById('propTitle').value = listing.title || '';
+          document.getElementById('propRent').value = listing.price || '';
+          document.getElementById('propDeposit').value = listing.deposit || '';
+          document.getElementById('propAreaSqft').value = listing.area || '';
+          document.getElementById('propConditions').value = listing.conditions || '';
+          document.getElementById('propTags').value = (listing.tags || []).join(', ');
+          switchTab('list');
+        };
+        const del = document.createElement('button');
+        del.className = 'pill';
+        del.style.fontSize = '10px';
+        del.textContent = '🗑 ' + t('ownerDelete');
+        del.onclick = function () {
+          if (!confirm('Delete this listing?')) return;
+          DB.ref('listings/' + listing.id).remove().then(() => {
+            showToast(t('toastDeleted'), 'success');
+          });
+        };
+        const avail = document.createElement('button');
+        avail.className = 'pill';
+        avail.style.fontSize = '10px';
+        avail.textContent = '🟢 ' + t('ownerStatusAvailable');
+        avail.onclick = function () {
+          renewListing(listing, true);
+        };
+        const rent = document.createElement('button');
+        rent.className = 'pill';
+        rent.style.fontSize = '10px';
+        rent.textContent = '🔴 ' + t('ownerStatusRented');
+        rent.onclick = function () {
+          updateStatus(listing, 'rented');
+        };
+        const sold = document.createElement('button');
+        sold.className = 'pill';
+        sold.style.fontSize = '10px';
+        sold.textContent = '🟣 ' + t('ownerStatusSold');
+        sold.onclick = function () {
+          updateStatus(listing, 'sold');
+        };
+        const renew = document.createElement('button');
+        renew.className = 'pill';
+        renew.style.fontSize = '10px';
+        renew.textContent = '🔄 ' + t('ownerRenew');
+        renew.onclick = function () {
+          renewListing(listing, false);
+        };
+        btnRow.appendChild(edit);
+        btnRow.appendChild(del);
+        btnRow.appendChild(avail);
+        btnRow.appendChild(rent);
+        btnRow.appendChild(sold);
+        btnRow.appendChild(renew);
+        right.appendChild(btnRow);
+        row.appendChild(thumb);
+        row.appendChild(body);
+        row.appendChild(right);
+        card.appendChild(row);
+        container.appendChild(card);
+      });
+    }
+
+    function updateStatus(listing, status) {
+      DB.ref('listings/' + listing.id + '/status').set(status).then(() => {
+        listing.status = status;
+        showToast(t('toastStatusUpdated'), 'success');
+        applySearch();
+        const phone = document.getElementById('dashPhone').value.trim();
+        if (phone) renderMyListings(phone);
+      });
+    }
+
+    function sendExpiryWhatsApp(listing) {
+      if (!listing.phone) return;
+      const d = daysRemaining(listing.expiryDate);
+      const msg = 'Reminder from GharMilo: Your listing "' + (listing.title || '') + '" in ' + (listing.location || '') + ' for ₹' + (listing.price || 0).toLocaleString() + ' will expire in ' + d + ' days. Open the app, go to My Listings and tap Available or Renew Listing to keep it active for 30 more days for free.';
+      sendWhatsApp(listing.phone, msg);
+    }
+
+    function renewListing(listing, markAvailable) {
+      const updates = {
+        expiryDate: Date.now() + THIRTY_DAYS,
+        warningShown: false
+      };
+      if (markAvailable) updates.status = 'available';
+      DB.ref('listings/' + listing.id).update(updates).then(() => {
+        listing.expiryDate = updates.expiryDate;
+        listing.warningShown = false;
+        if (markAvailable) listing.status = 'available';
+        showToast(t('toastRenewed'), 'success');
+        applySearch();
+        const phone = document.getElementById('dashPhone').value.trim();
+        if (phone) renderMyListings(phone);
+      });
+    }
+
+    function handleJoined(listing) {
+      if (!confirm('Did you join this house? Click OK to continue.')) return;
+      document.getElementById('joinedOverlay').classList.add('active');
+      window._joinedListing = listing;
+    }
+
+    function closeJoined() {
+      document.getElementById('joinedOverlay').classList.remove('active');
+      window._joinedListing = null;
+    }
+
+    function openUpi() {
+      const link = 'upi://pay?pa=7207521486@ptaxis&pn=GharMilo&am=5&cu=INR';
+      window.location.href = link;
+    }
+
+    function markJoinedAndNotify() {
+      const listing = window._joinedListing;
+      if (!listing) return;
+      if (!joinedIds.includes(listing.id)) {
+        joinedIds.push(listing.id);
+        saveLocalState();
+      }
+      const msg = 'Tenant has joined your house "' + (listing.title || '') + '" in ' + (listing.location || '') + '. Congratulations! – via GharMilo';
+      sendWhatsApp(listing.phone, msg);
+      showToast(t('toastJoined'), 'success');
+      applySearch();
+      closeJoined();
+    }
+
+    function setAreaFromChip(area) {
+      currentFilters.area = area;
+      renderAreaChips();
+      applySearch();
+    }
+
+    function onPriceChange() {
+      currentFilters.minPrice = document.getElementById('minPrice').value;
+      currentFilters.maxPrice = document.getElementById('maxPrice').value;
+      applySearch();
+    }
+
+    function setPriceShortcut(kind) {
+      const minInput = document.getElementById('minPrice');
+      const maxInput = document.getElementById('maxPrice');
+      if (kind === 'under5') {
+        minInput.value = '';
+        maxInput.value = '5000';
+      } else if (kind === '5to8') {
+        minInput.value = '5000';
+        maxInput.value = '8000';
+      } else if (kind === '8to12') {
+        minInput.value = '8000';
+        maxInput.value = '12000';
+      } else if (kind === 'above12') {
+        minInput.value = '12000';
+        maxInput.value = '';
+      }
+      currentFilters.minPrice = minInput.value;
+      currentFilters.maxPrice = maxInput.value;
+      applySearch();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      const tEl = document.getElementById('tab-' + tab);
+      if (tEl) tEl.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      const nav = document.getElementById('nav-' + tab);
+      if (nav) nav.classList.add('active');
+      if (tab === 'saved') renderSaved();
+    }
+
+    function goToSaved() {
+      switchTab('saved');
+    }
+
+    function nextListStep(step) {
+      if (step === 2) {
+        const name = document.getElementById('ownerName').value.trim();
+        const phone = document.getElementById('ownerPhone').value.trim();
+        const area = document.getElementById('ownerArea').value;
+        if (!name) {
+          showToast(t('toastNameRequired'), 'error');
+          return;
+        }
+        if (!/^\d{10}$/.test(phone)) {
+          showToast(t('toastInvalidPhone'), 'error');
+          return;
+        }
+        if (!area) {
+          showToast(t('toastAreaRequired'), 'error');
+          return;
+        }
+      }
+      if (step === 4) {
+        const title = document.getElementById('propTitle').value.trim();
+        const rent = parseInt(document.getElementById('propRent').value, 10);
+        const cond = document.getElementById('propConditions').value.trim();
+        if (!title) {
+          showToast(t('toastTitleRequired'), 'error');
+          return;
+        }
+        if (!rent || rent <= 0) {
+          showToast(t('toastRentRequired'), 'error');
+          return;
+        }
+        if (!cond) {
+          showToast(t('toastConditionsRequired'), 'error');
+          return;
+        }
+        buildPreviewCard();
+      }
+      document.getElementById('listStep1').style.display = step === 1 ? 'block' : 'none';
+      document.getElementById('listStep2').style.display = step === 2 ? 'block' : 'none';
+      document.getElementById('listStep3').style.display = step === 3 ? 'block' : 'none';
+      document.getElementById('listStep4').style.display = step === 4 ? 'block' : 'none';
+      document.getElementById('listSuccess').style.display = 'none';
+      document.getElementById('stepDot1').style.width = step >= 1 ? '100%' : '0';
+      document.getElementById('stepDot2').style.width = step >= 2 ? '100%' : '0';
+      document.getElementById('stepDot3').style.width = step >= 3 ? '100%' : '0';
+      document.getElementById('stepDot4').style.width = step >= 4 ? '100%' : '0';
+    }
+
+    function prevListStep(step) {
+      nextListStep(step);
+    }
+
+    function handlePhotoUpload(e) {
+      const files = Array.from(e.target.files || []);
+      const preview = document.getElementById('photoPreview');
+      const currentCount = preview.querySelectorAll('.photo-thumb').length;
+      const max = 4 - currentCount;
+      const toRead = files.slice(0, max);
+      toRead.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          const div = document.createElement('div');
+          div.className = 'photo-thumb';
+          const img = document.createElement('img');
+          img.src = evt.target.result;
+          div.appendChild(img);
+          const rm = document.createElement('button');
+          rm.className = 'photo-remove';
+          rm.textContent = '✕';
+          rm.onclick = function () {
+            preview.removeChild(div);
+          };
+          div.appendChild(rm);
+          preview.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+      });
+      e.target.value = '';
+    }
+
+    function buildPreviewCard() {
+      const mock = {
+        id: 'preview',
+        title: document.getElementById('propTitle').value.trim(),
+        location: document.getElementById('ownerArea').value,
+        price: parseInt(document.getElementById('propRent').value, 10) || 0,
+        type: document.getElementById('propType').value,
+        bhk: document.getElementById('propBhk').value,
+        area: parseInt(document.getElementById('propAreaSqft').value, 10) || 0,
+        furnished: document.getElementById('propFurnish').value,
+        parking: document.getElementById('propParking').checked,
+        water: document.getElementById('propWater').value,
+        deposit: parseInt(document.getElementById('propDeposit').value, 10) || 0,
+        tags: document.getElementById('propTags').value.split(',').map(s => s.trim()).filter(Boolean),
+        status: 'available',
+        reviews: [],
+        photos: Array.from(document.getElementById('photoPreview').querySelectorAll('img')).map(img => img.src),
+        emoji: EMOJIS[0],
+        timestamp: Date.now(),
+        views: 0
+      };
+      const container = document.getElementById('previewCardPlaceholder');
+      container.innerHTML = '';
+      renderListingsIntoInternal(container, [mock]);
+    }
+
+    function renderListingsIntoInternal(container, listings) {
+      const tempId = 'tempListingContainer';
+      const temp = document.createElement('div');
+      temp.id = tempId;
+      temp.className = 'listings';
+      container.appendChild(temp);
+      renderListingsInto(tempId, listings, { context: 'main', allowEmptyAlternative: false });
+      const inner = temp.firstElementChild;
+      if (inner) {
+        container.innerHTML = '';
+        container.appendChild(inner);
+      }
+    }
+
+    function publishListing() {
+      const name = document.getElementById('ownerName').value.trim();
+      const phone = document.getElementById('ownerPhone').value.trim();
+      const area = document.getElementById('ownerArea').value;
+      const title = document.getElementById('propTitle').value.trim();
+      const type = document.getElementById('propType').value;
+      const bhk = document.getElementById('propBhk').value;
+      const rent = parseInt(document.getElementById('propRent').value, 10);
+      const deposit = parseInt(document.getElementById('propDeposit').value, 10) || 0;
+      const sqft = parseInt(document.getElementById('propAreaSqft').value, 10) || 0;
+      const furnish = document.getElementById('propFurnish').value;
+      const water = document.getElementById('propWater').value;
+      const parking = document.getElementById('propParking').checked;
+      const lift = document.getElementById('propLift').checked;
+      const conditions = document.getElementById('propConditions').value.trim();
+      const tags = document.getElementById('propTags').value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!name) {
+        showToast(t('toastNameRequired'), 'error');
+        return;
+      }
+      if (!/^\d{10}$/.test(phone)) {
+        showToast(t('toastInvalidPhone'), 'error');
+        return;
+      }
+      if (!area) {
+        showToast(t('toastAreaRequired'), 'error');
+        return;
+      }
+      if (!title) {
+        showToast(t('toastTitleRequired'), 'error');
+        return;
+      }
+      if (!rent || rent <= 0) {
+        showToast(t('toastRentRequired'), 'error');
+        return;
+      }
+      if (!conditions) {
+        showToast(t('toastConditionsRequired'), 'error');
+        return;
+      }
+      const photos = Array.from(document.getElementById('photoPreview').querySelectorAll('img')).map(img => img.src).slice(0, 4);
+      const now = Date.now();
+      const data = {
+        ownerName: name,
+        phone,
+        title,
+        location: area,
+        price: rent,
+        type,
+        bhk,
+        area: sqft,
+        furnished: furnish,
+        parking,
+        water,
+        lift,
+        deposit,
+        conditions,
+        tags,
+        verified: false,
+        emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+        bg: BG_COLORS[Math.floor(Math.random() * BG_COLORS.length)],
+        photos,
+        status: 'available',
+        reviews: [],
+        timestamp: now,
+        views: 0,
+        expiryDate: now + THIRTY_DAYS,
+        warningShown: false
+      };
+      DB.ref('listings').push(data).then(() => {
+        showToast(t('toastPublished'), 'success');
+        document.getElementById('listStep1').style.display = 'none';
+        document.getElementById('listStep2').style.display = 'none';
+        document.getElementById('listStep3').style.display = 'none';
+        document.getElementById('listStep4').style.display = 'none';
+        document.getElementById('listSuccess').style.display = 'block';
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('ownerName').value = '';
+      document.getElementById('ownerPhone').value = '';
+      document.getElementById('ownerArea').value = '';
+      document.getElementById('propTitle').value = '';
+      document.getElementById('propRent').value = '';
+      document.getElementById('propDeposit').value = '';
+      document.getElementById('propAreaSqft').value = '';
+      document.getElementById('propConditions').value = '';
+      document.getElementById('propTags').value = '';
+      document.getElementById('photoPreview').innerHTML = '';
+      nextListStep(1);
+    }
+
+    function loadMyListings() {
+      const phone = document.getElementById('dashPhone').value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        showToast(t('toastInvalidPhone'), 'error');
+        return;
+      }
+      renderMyListings(phone);
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'en' ? 'te' : 'en';
+      saveLocalState();
+      applyLang();
+    }
+
+    function installPwa() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () {
+        dismissPwa();
+      });
+    }
+
+    function dismissPwa() {
+      document.getElementById('pwaBanner').style.display = 'none';
+      try {
+        localStorage.setItem('gm_pwa_dismissed', '1');
+      } catch (e) {}
+    }
+
+    function maybeShowPwa() {
+      try {
+        const count = parseInt(localStorage.getItem('gm_visit_count') || '0', 10) + 1;
+        localStorage.setItem('gm_visit_count', String(count));
+        const dismissed = localStorage.getItem('gm_pwa_dismissed') === '1';
+        if (count >= 2 && deferredPrompt && !dismissed) {
+          document.getElementById('pwaBanner').style.display = 'block';
+        }
+      } catch (e) {}
+    }
+
+    function checkExpiry(listingsSnapshot) {
+      const updates = [];
+      listingsSnapshot.forEach(child => {
+        const val = child.val() || {};
+        const id = child.key;
+        const expiry = val.expiryDate;
+        if (expiry && expiry > YEAR2020 && expiry < Date.now() && val.status !== 'rented' && val.status !== 'sold') {
+          updates.push(DB.ref('listings/' + id).remove());
+        }
+      });
+      if (updates.length) {
+        Promise.all(updates).catch(function(){});
+      }
+      setTimeout(function () {
+        listingsSnapshot.forEach(child => {
+          const val = child.val() || {};
+          const id = child.key;
+          const expiry = val.expiryDate;
+          if (expiry && expiry > YEAR2020 && expiry - Date.now() < THREE_DAYS && !val.warningShown) {
+            DB.ref('listings/' + id + '/warningShown').set(true).catch(function(){});
+          }
+        });
+      }, 1500);
+    }
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      maybeShowPwa();
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function(){});
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      loadLocalState();
+      applyLang();
+      renderAreaChips();
+      renderBhkChips();
+      try {
+        firebase.initializeApp(firebaseConfig);
+        DB = firebase.database();
+        const ref = DB.ref('listings');
+        ref.on('value', function (snap) {
+          const val = snap.val() || {};
+          const now = Date.now();
+          const arr = [];
+          Object.keys(val).forEach(id => {
+            const v = val[id];
+            v.id = id;
+            v._expired = false;
+            if (v.expiryDate && v.expiryDate > YEAR2020 && v.expiryDate < now && v.status !== 'rented' && v.status !== 'sold') {
+              v._expired = true;
+            }
+            arr.push(v);
+          });
+          allListings = arr;
+          const total = arr.length;
+          const available = arr.filter(l => l.status !== 'rented' && l.status !== 'sold' && !l._expired).length;
+          document.getElementById('statTotal').textContent = total;
+          document.getElementById('statAvailable').textContent = available;
+          applySearch();
+          renderSaved();
+          const loading = document.getElementById('loading');
+          const app = document.getElementById('appShell');
+          if (loading) loading.style.display = 'none';
+          if (app) app.style.display = 'flex';
+          checkExpiry(snap);
+        }, function () {
+          const loading = document.getElementById('loading');
+          const app = document.getElementById('appShell');
+          if (loading) loading.style.display = 'none';
+          if (app) app.style.display = 'flex';
+        });
+      } catch (e) {
+        console.error(e);
+        const loading = document.getElementById('loading');
+        const app = document.getElementById('appShell');
+        if (loading) loading.style.display = 'none';
+        if (app) app.style.display = 'flex';
+      }
+    });
+
+    window.toggleLanguage = toggleLanguage;
+    window.switchTab = switchTab;
+    window.goToSaved = goToSaved;
+    window.applySearch = applySearch;
+    window.resetFilters = resetFilters;
+    window.setPriceShortcut = setPriceShortcut;
+    window.onPriceChange = onPriceChange;
+    window.nextListStep = nextListStep;
+    window.prevListStep = prevListStep;
+    window.handlePhotoUpload = handlePhotoUpload;
+    window.publishListing = publishListing;
+    window.resetForm = resetForm;
+    window.loadMyListings = loadMyListings;
+    window.closeDetail = closeDetail;
+    window.openReport = openReport;
+    window.closeReport = closeReport;
+    window.toggleSaveFromDetail = toggleSaveFromDetail;
+    window.handleJoined = handleJoined;
+    window.closeJoined = closeJoined;
+    window.openUpi = openUpi;
+    window.confirmJoinedPaid = markJoinedAndNotify;
+    window.skipJoined = markJoinedAndNotify;
+    window.installPwa = installPwa;
+    window.dismissPwa = dismissPwa;
+    window.setArea = setAreaFromChip;
+  </script>
+</body>
+</html>
