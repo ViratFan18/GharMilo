@@ -1671,14 +1671,53 @@
 
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyA4J9-dvMTaETFE_ZU2HrKi6Wdz2NyjafA",
-      authDomain: "gharmilo.firebaseapp.com",
-      databaseURL: "https://gharmilo-default-rtdb.firebaseio.com",
-      projectId: "gharmilo",
-      storageBucket: "gharmilo.firebasestorage.app",
-      messagingSenderId: "734382282773",
-      appId: "1:734382282773:web:82bc902ecd146a6b36561c"
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
     };
+
+    function createFirebaseStub() {
+      return {
+        ref: function () {
+          return {
+            on: function () { return this; },
+            once: function () { return Promise.resolve({ val: function () { return {}; } }); },
+            push: function () { return Promise.resolve({ key: 'local-' + Date.now() }); },
+            set: function () { return Promise.resolve(); },
+            update: function () { return Promise.resolve(); },
+            remove: function () { return Promise.resolve(); },
+            transaction: function (updateFn) {
+              const currentValue = typeof updateFn === 'function' ? updateFn(null) : null;
+              return Promise.resolve(currentValue);
+            },
+            child: function () { return this; }
+          };
+        }
+      };
+    }
+
+    function initializeFirebaseSafely() {
+      const hasConfig = Object.values(firebaseConfig).some(value => String(value || '').trim());
+      if (!hasConfig) {
+        console.warn('Firebase is not configured. Running in offline-safe mode.');
+        return createFirebaseStub();
+      }
+
+      try {
+        if (typeof firebase !== 'undefined') {
+          firebase.initializeApp(firebaseConfig);
+          return firebase.database();
+        }
+      } catch (error) {
+        console.warn('Firebase initialization failed. Running in offline-safe mode.', error);
+      }
+
+      return createFirebaseStub();
+    }
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
     const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
@@ -3760,9 +3799,13 @@
       applyLang();
       renderAreaChips();
       renderBhkChips();
+      DB = initializeFirebaseSafely();
+      if (!DB || typeof DB.ref !== 'function') {
+        console.warn('Database is unavailable; the app will keep running in local/offline-safe mode.');
+        return;
+      }
+
       try {
-        firebase.initializeApp(firebaseConfig);
-        DB = firebase.database();
         const ref = DB.ref('listings');
         ref.on('value', function (snap) {
           const val = snap.val() || {};

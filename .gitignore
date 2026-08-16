@@ -1,0 +1,29 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local environment secrets
+.env
+.env.*
+*.local
+.local
+
+# Firebase / credentials
+firebase-debug.log*
+*.pem
+*.key
+*.crt
+credentials.json
+service-account*.json
+
+# Build / caches
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.parcel-cache/
